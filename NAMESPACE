@@ -1,0 +1,35 @@
+importFrom( "graphics", "hist", "legend", "lines", "par", "plot" )
+importFrom( "stats", "dgamma", "dnorm", "rbeta", "rgamma", "rmultinom", 
+            "rt", "dt", "rnorm", "runif", "sd", "var" )
+importFrom( "utils", "flush.console" )
+
+export( bmixgamma,
+		bmixnorm,
+		
+		rmixgamma,
+		dmixgamma,
+		
+		rmixnorm,
+		dmixnorm,
+		
+		rmixt,
+		dmixt,
+		
+		rdirichlet,
+
+		print.bmixgamma, 
+		plot.bmixgamma, 
+		summary.bmixgamma,
+
+		print.bmixnorm, 
+		plot.bmixnorm, 
+		summary.bmixnorm
+	   )
+
+S3method( "summary", "bmixgamma" )
+S3method( "plot",    "bmixgamma" )
+S3method( "print",   "bmixgamma" )
+
+S3method( "summary", "bmixnorm" )
+S3method( "plot",    "bmixnorm" )
+S3method( "print",   "bmixnorm" )
