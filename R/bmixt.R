@@ -1,4 +1,5 @@
-## Main function: BDMCMC algorithm for finite mixture of Gamma distribution
+
+## Main function: BDMCMC algorithm for finite mixture of t-distribution
 ################################################################################
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
@@ -8,16 +9,18 @@
 # 4) lambda_r:       rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
 ################################################################################
-bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
-                    k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
-                    k_max = 30, trace = TRUE )
+bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
+				  df = 1,
+                  k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
+                  k_max = 30, trace = TRUE )
 {
 	if( any( is.na( data ) ) ) stop( "Data should contain no missing data" ) 
 	if( iter <= burnin )       stop( "Number of iteration must be more than number of burn-in" )	
 
-	burnin = floor( burnin )
-	n      = length( data )
+	burnin   = floor( burnin )
+	n        = length( data )
 	lambda_r = lambda
+	df_t     = df
 	
 	max_data = max( data )	
 	min_data = min( data )
@@ -46,33 +49,37 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 	if( is.null( mu.start  ) ) mu.start  = rnorm( k, epsilon, sqrt( 1 / kappa_r ) ) 
 	if( is.null( sig.start ) ) sig.start = 1 / rgamma( k, alpha, beta_r ) 	
 
-	pi_r  = pi.start
-	mu  = mu.start
-    sig = sig.start
+	pi_r = pi.start
+	mu   = mu.start
+    sig  = sig.start
+    q_t  = rgamma( n, df_t / 2, df_t / 2 )
 
 	# Sort parameters based on mu
-	order_mu = order( mu )
-	pi_r       = pi_r[order_mu]
-	mu       = mu[order_mu]
-	sig      = sig[order_mu]
+	order_pi = order( pi_r )
+	pi_r     = pi_r[order_pi]
+	mu       = mu[order_pi]
+	sig      = sig[order_pi]
     
 ############### MCMC 
 	if( component_size == "unknown" )
 	{
-		k_max_r = k_max
-		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k_max_r ) 
+		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k_max ) 
 		mu_sample  = pi_sample
 		sig_sample = pi_sample
 		all_k       = vector( mode = "numeric", length = iter )
 		all_weights = all_k
 
-		data_r = data
+		data_r  = data
+		k_max_r = k_max
+		q_t_r   = q_t
+		df_t_r  = df_t
 		
-		result = .C( "bmix_norm_k_unknown", as.double(data_r), as.integer(n), as.integer(k), as.integer(k_max_r), as.integer(iter), as.integer(burnin), as.double(lambda_r),
+		result = .C( "bmix_t_unknown_k", as.double(data_r), as.integer(n), as.integer(k), as.integer(k_max_r), as.integer(iter), as.integer(burnin), as.double(lambda_r),
  						pi_sample = as.double(pi_sample), mu_sample = as.double(mu_sample), sig_sample = as.double(sig_sample),
  						all_k = as.integer(all_k), all_weights = as.double(all_weights),
 						as.double(epsilon), as.double(kappa_r), as.double(alpha), as.double(beta_r), as.double(g), as.double(h),
-						as.double(mu), as.double(sig), as.double(pi_r), PACKAGE = "bmixture" )
+						as.double(mu), as.double(sig), as.double(pi_r), 
+						as.double(q_t_r), as.integer (df_t_r), PACKAGE = "bmixture" )
 		
 		all_k       = result $ all_k
 		all_weights = result $ all_weights
@@ -80,25 +87,29 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 		pi_sample  = matrix( result $ pi_sample , nrow = iter - burnin, ncol = k_max_r )
 		mu_sample  = matrix( result $ mu_sample , nrow = iter - burnin, ncol = k_max_r )
 		sig_sample = matrix( result $ sig_sample, nrow = iter - burnin, ncol = k_max_r )
-   		
-		mcmc_sample = list( all_k = all_k, all_weights = all_weights, pi_sample = pi_sample, mu_sample = mu_sample, sig_sample = sig_sample, data = data_r, component_size = "unknown" )    
+		   		
+		mcmc_sample = list( all_k = all_k, all_weights = all_weights, pi_sample = pi_sample, mu_sample = mu_sample, sig_sample = sig_sample, data = data_r, df_t = df_t, component_size = "unknown" )    
 	} else {
 		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k ) 
 		mu_sample  = pi_sample
 		sig_sample = pi_sample
+		
 		data_r = data
-   
-		result = .C( "bmix_norm_k_fixed", as.double(data_r), as.integer(n), as.integer(k), as.integer(iter), as.integer(burnin), 
+		q_t_r  = q_t
+		df_t_r = df_t
+      
+		result = .C( "bmix_t_fixed_k", as.double(data_r), as.integer(n), as.integer(k), as.integer(iter), as.integer(burnin), 
 						pi_sample = as.double(pi_sample), mu_sample = as.double(mu_sample), sig_sample = as.double(sig_sample),
 						as.double(epsilon), as.double(kappa_r), as.double(alpha), as.double(g), as.double(h),
-						as.double(mu), as.double(sig), as.double(pi_r)  #)
+						as.double(mu), as.double(sig), as.double(pi_r),  
+						as.double(q_t_r), as.integer (df_t_r) #)
 						, PACKAGE = "bmixture" )
 
 		pi_sample  = matrix( result $ pi_sample , nrow = iter - burnin, ncol = k )
 		mu_sample  = matrix( result $ mu_sample , nrow = iter - burnin, ncol = k )
 		sig_sample = matrix( result $ sig_sample, nrow = iter - burnin, ncol = k )
 
-		mcmc_sample = list( pi_sample = pi_sample, mu_sample = mu_sample, sig_sample = sig_sample, data = data, component_size = "fixed" )    
+		mcmc_sample = list( pi_sample = pi_sample, mu_sample = mu_sample, sig_sample = sig_sample, data = data, df_t = df_t, component_size = "fixed" )    
 	}
 
 	if( trace == TRUE )
@@ -109,18 +120,19 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 		flush.console()
 	}    
 
-	class( mcmc_sample ) = "bmixnorm"
+	class( mcmc_sample ) = "bmixt"
 	return( mcmc_sample )
 }
    
-# summary of bmixnorm output
-summary.bmixnorm = function( object, ... )
+# summary of bmixt output
+summary.bmixt = function( object, ... )
 {
 	component_size = object $ component_size
 	pi_sample      = object $ pi_sample
 	mu_sample      = object $ mu_sample
 	sig_sample     = object $ sig_sample
 	data           = object $ data
+	df_t           = object $ df_t
 	
 	sample_size    = nrow( sig_sample )
    
@@ -160,14 +172,15 @@ summary.bmixnorm = function( object, ... )
 	}
 }  
      
-# plot for class bmixnorm
-plot.bmixnorm = function( x, ... )
+# plot for class bmixt
+plot.bmixt = function( x, ... )
 {
 	component_size = x $ component_size
 	pi_sample      = x $ pi_sample
 	mu_sample      = x $ mu_sample
 	sig_sample     = x $ sig_sample
 	data           = x $ data
+	df_t           = x $ df_t
 	
 	sample_size    = nrow( sig_sample )
 
@@ -185,7 +198,7 @@ plot.bmixnorm = function( x, ... )
 		burnin      = iter - sample_size
 		k           = all_k[( burnin + 1 ):iter]
 
-		result = .C( "dmixnorm_hat_x_seq_unknow_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), 
+		result = .C( "dmixt_hat_x_seq_unknow_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), as.integer(df_t), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
 					 as.integer(k), as.integer(sample_size), as.integer(size_x_seq_r)
 					 , PACKAGE = "bmixture" )
@@ -198,7 +211,7 @@ plot.bmixnorm = function( x, ... )
 	{
 		size_mix = ncol( sig_sample )
 
-		result = .C( "dmixnorm_hat_x_seq_fixed_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), 
+		result = .C( "dmixt_hat_x_seq_fixed_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), as.integer(df_t), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
 					 as.integer(size_mix), as.integer(sample_size), as.integer(size_x_seq_r)
 					 , PACKAGE = "bmixture" )
@@ -211,13 +224,14 @@ plot.bmixnorm = function( x, ... )
     legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
      
-# print of the bmixnorm output
-print.bmixnorm = function( x, ... )
+# print of the bmixt output
+print.bmixt = function( x, ... )
 {
 	component_size = x $ component_size
 	pi_sample      = x $ pi_sample
 	mu_sample      = x $ mu_sample
 	sig_sample     = x $ sig_sample
+	df_t           = x $ df_t
 
 	if( component_size == "unknown" )
 	{
@@ -242,7 +256,14 @@ print.bmixnorm = function( x, ... )
 		cat( paste( "Estimated pi  = "), paste( round( apply( pi_sample , 2, mean ), 2 ) ), fill = TRUE ) 
 		cat( paste( "Estimated mu  = "), paste( round( apply( mu_sample , 2, mean ), 2 ) ), fill = TRUE ) 
 		cat( paste( "Estimated sig = "), paste( round( apply( sig_sample, 2, mean ), 2 ) ), fill = TRUE ) 
+		cat( paste( "Estimated df  = " ), df_t                                            , fill = TRUE ) 
 		cat( paste( "" ), fill = TRUE )				
 	}
 } 
    
+
+
+
+
+
+
