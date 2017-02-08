@@ -23,7 +23,6 @@ Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in 
 \seealso{\code{\link{bmixt}}}
 
 \examples{
-\dontrun{
 # simulating data from mixture of Normal with 3 components
 n      = 500
 weight = c( 0.3, 0.5, 0.2 )
@@ -44,5 +43,4 @@ lines( x, densmixnorm, lwd = 2 )
 bmixt.obj = bmixt( data, k = 3, iter = 1000 )
     
 print( bmixt.obj ) 
-}
 }

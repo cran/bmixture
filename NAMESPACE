@@ -22,13 +22,17 @@ export( bmixgamma,
 		
 		rdirichlet,
 
-		print.bmixgamma, 
-		plot.bmixgamma, 
 		summary.bmixgamma,
+		plot.bmixgamma, 
+		print.bmixgamma, 
 
-		print.bmixnorm, 
+		summary.bmixnorm,
 		plot.bmixnorm, 
-		summary.bmixnorm
+		print.bmixnorm, 
+
+		summary.bmixt,
+		plot.bmixt, 
+		print.bmixt
 	   )
 
 S3method( "summary", "bmixgamma" )

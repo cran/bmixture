@@ -102,8 +102,7 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 						pi_sample = as.double(pi_sample), mu_sample = as.double(mu_sample), sig_sample = as.double(sig_sample),
 						as.double(epsilon), as.double(kappa_r), as.double(alpha), as.double(g), as.double(h),
 						as.double(mu), as.double(sig), as.double(pi_r),  
-						as.double(q_t_r), as.integer (df_t_r) #)
-						, PACKAGE = "bmixture" )
+						as.double(q_t_r), as.integer (df_t_r), PACKAGE = "bmixture" )
 
 		pi_sample  = matrix( result $ pi_sample , nrow = iter - burnin, ncol = k )
 		mu_sample  = matrix( result $ mu_sample , nrow = iter - burnin, ncol = k )
@@ -200,8 +199,7 @@ plot.bmixt = function( x, ... )
 
 		result = .C( "dmixt_hat_x_seq_unknow_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), as.integer(df_t), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
-					 as.integer(k), as.integer(sample_size), as.integer(size_x_seq_r)
-					 , PACKAGE = "bmixture" )
+					 as.integer(k), as.integer(sample_size), as.integer(size_x_seq_r), PACKAGE = "bmixture" )
 					 
 		f_hat_x_seq = result $ f_hat_x_seq
 	
@@ -213,8 +211,7 @@ plot.bmixt = function( x, ... )
 
 		result = .C( "dmixt_hat_x_seq_fixed_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), as.integer(df_t), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
-					 as.integer(size_mix), as.integer(sample_size), as.integer(size_x_seq_r)
-					 , PACKAGE = "bmixture" )
+					 as.integer(size_mix), as.integer(sample_size), as.integer(size_x_seq_r), PACKAGE = "bmixture" )
 					 
 		f_hat_x_seq = result $ f_hat_x_seq
 

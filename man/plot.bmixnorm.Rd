@@ -41,7 +41,7 @@ densmixnorm = dmixnorm( x, weight, mean, sd )
 lines( x, densmixnorm, lwd = 2 )  
     
 # Runing bdmcmc algorithm for the above simulation data set      
-bmixnorm.obj = bmixnorm( data, k = 3, iter = 1000 )
+bmixnorm.obj = bmixnorm( data, k = 3 )
     
 plot( bmixnorm.obj ) 
 }

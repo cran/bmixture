@@ -23,7 +23,6 @@ Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in 
 \seealso{\code{\link{bmixgamma}}}
 
 \examples{
-\dontrun{
 # simulating data from mixture of gamma with two components
 n      = 500 # number of observations
 weight = c( 0.6, 0.4 )
@@ -41,8 +40,7 @@ truth = dmixgamma( x, weight, alpha, beta )
 lines( x, truth, lwd = 2 )
   
 # Runing bdmcmc algorithm for the above simulation data set      
-bmixgamma.obj <- bmixgamma( data, iter = 500 )
+bmixgamma.obj <- bmixgamma( data )
     
 plot( bmixgamma.obj )
-}
 }

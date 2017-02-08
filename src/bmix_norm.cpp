@@ -5,6 +5,7 @@
 #include <math.h>        // pow 
 #include <algorithm>     // for sort function
 #include <limits>        // for numeric_limits<long double>::max()
+#include <R_ext/Arith.h> // for R_PosInf, R_NegInf, R_NaReal (more commonly used as NA_REAL)
 
 #include "funs_in_mcmc.h"
 
@@ -152,8 +153,6 @@ void update_parameters_bmixnorm(
 			double mu_c[], double sig_c[], double pi_c[] 
 			)
 {
-	int i, j;
-	
 //-- STEP 1: sample latend variables (matrix z) -------------------------------|
   
 	vector<int> z( *k_c * *n_c );         // z  = matrix( 0, nrow = k, ncol = n ) 
@@ -176,7 +175,6 @@ void update_parameters_bmixnorm(
 //-- STEP 5: updating sig_c ---------------------------------------------------|
    
 	update_sig( &beta_new, data_c, &z[0], &n_i[0], n_c, k_c, alpha_c, mu_c, sig_c );
-
 }
 
 // sort all parameters based on pi
@@ -229,6 +227,7 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 	
 	int counter = 0;
 	double max_numeric_limits_ld = numeric_limits<double>::max() / 10000;
+	double min_numeric_limits_ld = numeric_limits<double>::min() * 10000;
 	
 	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
@@ -262,14 +261,14 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 					log_death_rates += log1p( - pi_c[j] * d_data_t_j / likelhood ) - log1p( - pi_c[j] );
 				}
 				
-				if( isinf( log_death_rates ) ) 
+				if( log_death_rates == R_NegInf ) 
 				{ 
-					death_rates[j] = 1e-300; 
+					death_rates[j] = min_numeric_limits_ld; 
 				}else{
 					death_rates[j] = exp( log_death_rates );
 				}
 				
-				if( isinf( death_rates[j] ) ) 
+				if( death_rates[j] == R_PosInf ) 
 					death_rates[j] = max_numeric_limits_ld;			
 			}	
 		}
@@ -292,8 +291,8 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 			double pi_new = rbeta( 1.0, k_c );
 						
 			//~ pi_r   <- c( pi_r * ( 1 - pi_new ), pi_new )
-			for( i = 0; i < pi_c.size(); i++ )
-				pi_c[i] *= ( 1 - pi_new );
+			for( i = 0; i < k_c; i++ )
+				pi_c[i] *= ( 1. - pi_new );
 				
 			pi_c.push_back( pi_new );
 			
@@ -302,7 +301,7 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 			mu_c.push_back( mu_new );
 		
 			//~ sig <- c( sig, 1 / rgamma( 1, alpha, beta_r ) )
-			double sig_new = 1 / rgamma( alpha_c, 1 / beta_c );
+			double sig_new = 1. / rgamma( alpha_c, 1 / beta_c );
 			sig_c.push_back( sig_new );
 			
 			++k_c;	
@@ -314,9 +313,9 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 			sample_c( &death_rates[0], &selected_j, &k_c );
 			
 			//~ pi_r   <- pi_r[-j] / ( 1 - pi_r[j] )
-			double pi_c_j = 1 - pi_c[ selected_j ];
+			double pi_c_j = 1. - pi_c[ selected_j ];
 			pi_c.erase( pi_c.begin() + selected_j );     // pi  <- pi[-j]
-			for( i = 0; i < pi_c.size(); i++ )
+			for( i = 0; i < k_c; i++ )
 				pi_c[i] /= pi_c_j;
 			
 			mu_c.erase(  mu_c.begin()  + selected_j );   // mu  <- mu[-j]
@@ -374,7 +373,7 @@ void bmix_norm_k_fixed(
 			)
 {
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
-	int i, j, ij;
+	int i, ij;
 	
 	double epsilon_c = *epsilon, kappa_c = *kappa_r, alpha_c = *alpha, g_c = *g, h_c = *h;
 

@@ -5,6 +5,7 @@
 #include <math.h>        // pow 
 #include <algorithm>     // for sort function
 #include <limits>        // for numeric_limits<long double>::max()
+#include <R_ext/Arith.h> // for R_PosInf, R_NegInf, R_NaReal (more commonly used as NA_REAL)
 
 #include "funs_in_mcmc.h"
 
@@ -19,7 +20,6 @@ void update_z_t( int z[], int n_i[], int *df_t,
 			)
 {
 	GetRNGstate();
-
 	vector<double> prob_z( *k_c ); 
 	// Sample group memberships from multinominal distribution
 	// for( j in 1:n ) z[, j] = rmultinom( n = 1, size = 1, prob = pi * dnorm( data[j], mean = mu, sd = sqrt( sig ) ) )	
@@ -47,7 +47,6 @@ void update_z_t( int z[], int n_i[], int *df_t,
 			sum_n += z[ j * *k_c + i ];
 		n_i[i] = sum_n;
 	}
-			
 	PutRNGstate();
 }	
     
@@ -55,6 +54,7 @@ void update_z_t( int z[], int n_i[], int *df_t,
 void update_q_t( double q_t[], double data_c[], int z[], int *df_t, int *n_c, int *k_c, 
 			double mu_c[], double sig_c[] )
 {
+	GetRNGstate();
 	for( int j = 0; j < *n_c; j++ )
 	{
 		// df_post = df_post + z[i,j] * ( ( ( data[j] - mu[i] ) ^ 2 ) / sig[i] )
@@ -64,6 +64,7 @@ void update_q_t( double q_t[], double data_c[], int z[], int *df_t, int *n_c, in
 		
 		q_t[j] = rgamma( ( *df_t + 1.0 ) / 2.0, 2.0 / ( *df_t + df_post ) );
 	}	
+	PutRNGstate();
 }
 
 // update beta
@@ -74,14 +75,12 @@ void update_beta_t(
 			)
 {
 	GetRNGstate();
-
 	// beta_r = rgamma( 1, g + k * alpha, h + sum( 1 / sig ) )
 	double sum_inv_sig = 0.0;
 	for( int i = 0; i < *k_c; i++ ) 
 		sum_inv_sig += 1.0 / sig_c[i];
 	
 	*beta_new = rgamma( *g_c + *k_c * *alpha_c, 1.0 / ( *h_c + sum_inv_sig ) );	
-
 	PutRNGstate();
 }
     
@@ -174,8 +173,6 @@ void update_mcmc_bmixt(
 			double mu_c[], double sig_c[], double pi_c[],  
 			double q_t[], int *df_t )
 {
-	int i, j;
-	
 //-- STEP 1: sample latend variables (matrix z) -------------------------------|
   
 	vector<int> z( *k_c * *n_c );         // z  = matrix( 0, nrow = k, ncol = n ) 
@@ -202,7 +199,6 @@ void update_mcmc_bmixt(
 //-- STEP 6: updating sig_c ---------------------------------------------------|
    
 	update_sig_t( &beta_new, q_t, data_c, &z[0], &n_i[0], n_c, k_c, alpha_c, mu_c, sig_c );
-
 }
 
 // sort all parameters based on pi
@@ -259,6 +255,7 @@ void bmix_t_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *iter,
 	
 	int counter = 0;
 	double max_numeric_limits_ld = numeric_limits<double>::max() / 10000;
+	double min_numeric_limits_ld = numeric_limits<double>::min() * 10000;
 	
 	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
@@ -292,14 +289,14 @@ void bmix_t_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *iter,
 					log_death_rates += log1p( - pi_c[j] * d_data_t_j / likelhood ) - log1p( - pi_c[j] );
 				}
 				
-				if( isinf( log_death_rates ) ) 
+				if( log_death_rates == R_NegInf ) 
 				{ 
-					death_rates[j] = 1e-300; 
+					death_rates[j] = min_numeric_limits_ld; 
 				}else{
 					death_rates[j] = exp( log_death_rates );
 				}
 				
-				if( isinf( death_rates[j] ) ) 
+				if( death_rates[j] == R_PosInf ) 
 					death_rates[j] = max_numeric_limits_ld;			
 			}	
 		}
@@ -322,7 +319,7 @@ void bmix_t_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *iter,
 			double pi_new = rbeta( 1.0, k_c );
 						
 			//~ pi_r   <- c( pi_r * ( 1 - pi_new ), pi_new )
-			for( i = 0; i < pi_c.size(); i++ )
+			for( i = 0; i < k_c; i++ )
 				pi_c[i] *= ( 1 - pi_new );
 				
 			pi_c.push_back( pi_new );
@@ -346,7 +343,7 @@ void bmix_t_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *iter,
 			//~ pi_r   <- pi_r[-j] / ( 1 - pi_r[j] )
 			double pi_c_j = 1 - pi_c[ selected_j ];
 			pi_c.erase( pi_c.begin() + selected_j );     // pi  <- pi[-j]
-			for( i = 0; i < pi_c.size(); i++ )
+			for( i = 0; i < k_c; i++ )
 				pi_c[i] /= pi_c_j;
 			
 			mu_c.erase(  mu_c.begin()  + selected_j );   // mu  <- mu[-j]
@@ -404,7 +401,7 @@ void bmix_t_fixed_k(
 			double q_t_r[], int *df_t_r )
 {
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
-	int i, j, ij;
+	int i, ij;
 	int df_t = *df_t_r;
 	
 	double epsilon_c = *epsilon, kappa_c = *kappa_r, alpha_c = *alpha, g_c = *g, h_c = *h;

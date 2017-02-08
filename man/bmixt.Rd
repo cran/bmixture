@@ -83,7 +83,6 @@ Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian 
 \seealso{\code{\link{rmixnorm}}}
 
 \examples{
-\dontrun{
 # simulating data from mixture of Normal with 3 components
 n      = 500
 weight = c( 0.3, 0.5, 0.2 )
@@ -104,5 +103,4 @@ lines( x, densmixnorm, lwd = 2 )
 bmixt.obj = bmixt( data, k = 3, iter = 1000 )
     
 summary( bmixt.obj ) 
-}
 }

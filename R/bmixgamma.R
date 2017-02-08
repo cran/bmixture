@@ -17,6 +17,7 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
                     k_max = 30, trace = TRUE )
 {
 	if( any( is.na( data ) ) ) stop( "Data should contain no missing data" ) 
+	if( any( data < 0  ) )     stop( "Data should have positive value" ) 
 	if( iter <= burnin )       stop( "Number of iteration must be more than number of burn-in" )	
 
 	burnin   = floor( burnin )

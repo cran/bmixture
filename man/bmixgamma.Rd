@@ -90,7 +90,6 @@ Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian 
 \seealso{\code{\link{rmixnorm}}}
 
 \examples{
-\dontrun{
 # simulating data from mixture of gamma with two components
 n      = 1000 # number of observations
 weight = c( 0.6, 0.4 )
@@ -108,10 +107,9 @@ truth = dmixgamma( x, weight, alpha, beta )
 lines( x, truth, lwd = 2 )
   
 # Runing bdmcmc algorithm for the above simulation data set      
-bmixgamma.obj <- bmixgamma( data, iter = 2000 )
+bmixgamma.obj <- bmixgamma( data, iter = 1000 )
     
 summary( bmixgamma.obj )  
    
 plot( bmixgamma.obj )        
-}
 }

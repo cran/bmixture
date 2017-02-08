@@ -46,23 +46,23 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 	if( is.null( mu.start  ) ) mu.start  = rnorm( k, epsilon, sqrt( 1 / kappa_r ) ) 
 	if( is.null( sig.start ) ) sig.start = 1 / rgamma( k, alpha, beta_r ) 	
 
-	pi_r  = pi.start
-	mu  = mu.start
-    sig = sig.start
+	pi_r = pi.start
+	mu   = mu.start
+    sig  = sig.start
 
 	# Sort parameters based on mu
 	order_mu = order( mu )
-	pi_r       = pi_r[order_mu]
+	pi_r     = pi_r[order_mu]
 	mu       = mu[order_mu]
 	sig      = sig[order_mu]
     
 ############### MCMC 
 	if( component_size == "unknown" )
 	{
-		k_max_r = k_max
-		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k_max_r ) 
-		mu_sample  = pi_sample
-		sig_sample = pi_sample
+		k_max_r     = k_max
+		pi_sample   = matrix( 0, nrow = iter - burnin, ncol = k_max_r ) 
+		mu_sample   = pi_sample
+		sig_sample  = pi_sample
 		all_k       = vector( mode = "numeric", length = iter )
 		all_weights = all_k
 
@@ -86,13 +86,12 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k ) 
 		mu_sample  = pi_sample
 		sig_sample = pi_sample
-		data_r = data
+		data_r     = data
    
 		result = .C( "bmix_norm_k_fixed", as.double(data_r), as.integer(n), as.integer(k), as.integer(iter), as.integer(burnin), 
 						pi_sample = as.double(pi_sample), mu_sample = as.double(mu_sample), sig_sample = as.double(sig_sample),
 						as.double(epsilon), as.double(kappa_r), as.double(alpha), as.double(g), as.double(h),
-						as.double(mu), as.double(sig), as.double(pi_r)  #)
-						, PACKAGE = "bmixture" )
+						as.double(mu), as.double(sig), as.double(pi_r), PACKAGE = "bmixture" )
 
 		pi_sample  = matrix( result $ pi_sample , nrow = iter - burnin, ncol = k )
 		mu_sample  = matrix( result $ mu_sample , nrow = iter - burnin, ncol = k )
@@ -148,7 +147,7 @@ summary.bmixnorm = function( object, ... )
 		plot( x = 1:max_k, y, type = "h", main = "", ylab = "Pr(k|data)", xlab = "k(Number of components)" )
 
 		# plot k based on iterations
-		sum_weights = 0 * weights
+		sum_weights    = 0 * weights
 		sum_weights[1] = weights[1]
 		for( i in 2:length( k ) ) sum_weights[i] = sum_weights[i - 1] + weights[i]
 
@@ -184,15 +183,18 @@ plot.bmixnorm = function( x, ... )
 		iter        = length( all_k )
 		burnin      = iter - sample_size
 		k           = all_k[( burnin + 1 ):iter]
+#		all_weights = x $ all_weights
+#		weights     = all_weights[( burnin + 1 ):iter]
 
 		result = .C( "dmixnorm_hat_x_seq_unknow_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
-					 as.integer(k), as.integer(sample_size), as.integer(size_x_seq_r)
-					 , PACKAGE = "bmixture" )
+					 as.integer(k), as.integer(sample_size), as.integer(size_x_seq_r), PACKAGE = "bmixture" )
 					 
-		f_hat_x_seq = result $ f_hat_x_seq
+		f_hat_x_seq = result $ f_hat_x_seq 
+		f_hat_x_seq = f_hat_x_seq / sample_size
+#		f_hat_x_seq = f_hat_x_seq / sum( weights )
 	
-		lines( x_seq, f_hat_x_seq / sample_size, col = "black", lty = 2, lw = 1 )
+		lines( x_seq, f_hat_x_seq, col = "black", lty = 2, lw = 1 )
 	}
 	else
 	{
@@ -200,8 +202,7 @@ plot.bmixnorm = function( x, ... )
 
 		result = .C( "dmixnorm_hat_x_seq_fixed_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), 
 					 as.double(pi_sample), as.double(mu_sample), as.double(sig_sample),
-					 as.integer(size_mix), as.integer(sample_size), as.integer(size_x_seq_r)
-					 , PACKAGE = "bmixture" )
+					 as.integer(size_mix), as.integer(sample_size), as.integer(size_x_seq_r), PACKAGE = "bmixture" )
 					 
 		f_hat_x_seq = result $ f_hat_x_seq
 
