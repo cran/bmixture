@@ -15,8 +15,8 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 	if( any( is.na( data ) ) ) stop( "Data should contain no missing data" ) 
 	if( iter <= burnin )       stop( "Number of iteration must be more than number of burn-in" )	
 
-	burnin = floor( burnin )
-	n      = length( data )
+	burnin   = floor( burnin )
+	n        = length( data )
 	lambda_r = lambda
 	
 	max_data = max( data )	
@@ -63,7 +63,7 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
 		pi_sample   = matrix( 0, nrow = iter - burnin, ncol = k_max_r ) 
 		mu_sample   = pi_sample
 		sig_sample  = pi_sample
-		all_k       = vector( mode = "numeric", length = iter )
+		all_k       = c( rep( 0, iter ) )
 		all_weights = all_k
 
 		data_r = data

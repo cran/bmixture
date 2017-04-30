@@ -61,7 +61,7 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
 		pi_sample    = matrix( 0, nrow = iter - burnin, ncol = k_max ) 
 		alpha_sample = pi_sample
 		beta_sample  = pi_sample
-		all_k        = vector( mode = "numeric", length = iter )
+		all_k        = c( rep( 0, iter ) )
 		all_weights  = all_k
 
 		data_r  = data

@@ -63,10 +63,10 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 ############### MCMC 
 	if( component_size == "unknown" )
 	{
-		pi_sample  = matrix( 0, nrow = iter - burnin, ncol = k_max ) 
-		mu_sample  = pi_sample
-		sig_sample = pi_sample
-		all_k       = vector( mode = "numeric", length = iter )
+		pi_sample   = matrix( 0, nrow = iter - burnin, ncol = k_max ) 
+		mu_sample   = pi_sample
+		sig_sample  = pi_sample
+		all_k       = c( rep( 0, iter ) )
 		all_weights = all_k
 
 		data_r  = data

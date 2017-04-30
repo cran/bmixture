@@ -1,8 +1,11 @@
-useDynLib( "bmixture" )
+useDynLib( "bmixture", .registration = TRUE )
 
 importFrom( "graphics", "hist", "legend", "lines", "par", "plot" )
-importFrom( "stats", "dgamma", "dnorm", "rbeta", "rgamma", "rmultinom", 
-            "rt", "dt", "rnorm", "runif", "sd", "var" )
+
+importFrom( "stats", "dgamma", "dnorm", "dt", 
+			"rbeta", "rgamma", "rnorm", "rt", "rmultinom", "runif", 
+			"sd", "var" )
+
 importFrom( "utils", "flush.console" )
 
 useDynLib( bmixture, .registration = TRUE )
@@ -38,9 +41,11 @@ export( bmixgamma,
 S3method( "summary", "bmixgamma" )
 S3method( "plot",    "bmixgamma" )
 S3method( "print",   "bmixgamma" )
+
 S3method( "summary", "bmixnorm" )
 S3method( "plot",    "bmixnorm" )
 S3method( "print",   "bmixnorm" )
+
 S3method( "summary", "bmixt" )
 S3method( "plot",    "bmixt" )
 S3method( "print",   "bmixt" )

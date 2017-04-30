@@ -10,6 +10,14 @@ The package implemented the improvements in the Bayesian literature, including M
 Besides, the package contains several functions for simulation and visualization, as well as a real dataset taken from the literature.
 }
 
+\section{How to cite this package}{
+Whenever using this package, please cite as
+\preformatted{
+Mohammadi A. (2017). bmixture: Bayesian Estimation for Finite Mixture of 
+Distributions, R package version 0.4, https://CRAN.R-project.org/package=bmixture
+}
+}
+
 \author{Abdolreza Mohammadi <a.mohammadi@uvt.nl>}
 
 \references{
@@ -30,4 +38,4 @@ Mohammadi, A. and E. Wit (2015) Bayesian Structure Learning in Sparse Gaussian G
 Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian Structure Learning in Graphical Models, \emph{arXiv:1501.05108} 
 }
 
-\keyword{ package }
+\keyword{ Package, bmixture, Mixture distributions, Bayesian model selection }

@@ -19,8 +19,7 @@ void update_z( int z[], int n_i[],
 			double mu_c[], double sig_c[], double pi_c[] 
 			)
 {
-	GetRNGstate();
-
+	//GetRNGstate();
 	vector<double> prob_z( *k_c ); 
 	// Sample group memberships from multinominal distribution
 	// for( j in 1:n ) z[, j] = rmultinom( n = 1, size = 1, prob = pi * dnorm( data[j], mean = mu, sd = sqrt( sig ) ) )	
@@ -46,9 +45,8 @@ void update_z( int z[], int n_i[],
 		for( int j = 0; j < *n_c; j++ )
 			sum_n += z[ j * *k_c + i ];
 		n_i[i] = sum_n;
-	}
-			
-	PutRNGstate();
+	}		
+	//PutRNGstate();
 }	
 
 // update beta
@@ -58,22 +56,20 @@ void update_beta(
 			double sig_c[] 
 			)
 {
-	GetRNGstate();
-
+	//GetRNGstate();
 	// beta_r = rgamma( 1, g + k * alpha, h + sum( 1 / sig ) )
 	double sum_inv_sig = 0.0;
 	for( int i = 0; i < *k_c; i++ ) 
 		sum_inv_sig += 1.0 / sig_c[i];
 	
 	*beta_new = rgamma( *g_c + *k_c * *alpha_c, 1.0 / ( *h_c + sum_inv_sig ) );	
-
-	PutRNGstate();
+	//PutRNGstate();
 }
     
 // update pi : Sample mixtures proportions (pi) from a dirichlet distribution
 void update_pi( double pi_c[], int n_i[], int *n_c, int *k_c )
 {
-	GetRNGstate();
+	//GetRNGstate();
 	// for( i in 1:k ) pi[i] = rgamma( n = 1, shape = 1 + n_i[i], scale = 1 ) 
 	for( int i = 0; i < *k_c; i++ ) 
 		pi_c[i] = rgamma( 1 + n_i[i], 1 ); 
@@ -83,7 +79,7 @@ void update_pi( double pi_c[], int n_i[], int *n_c, int *k_c )
 	double sum_pi = 0.0;
 	for( int i = 0; i < *k_c; i++ ) sum_pi  += pi_c[i];
 	for( int i = 0; i < *k_c; i++ ) pi_c[i] /= sum_pi;
-	PutRNGstate();
+	//PutRNGstate();
 }
     
 // update mu
@@ -93,7 +89,7 @@ void update_mu(
 			double mu_c[], double sig_c[] 
 			)
 {
-	GetRNGstate();
+	//GetRNGstate();
 	for( int i = 0; i < *k_c; i++ ) 
 	{
 		// Set mixture sample mean
@@ -111,7 +107,7 @@ void update_mu(
 		// Sample new mean from normal distribution
 		mu_c[i] = rnorm( mu_mean, sqrt( mu_sig ) );
 	}
-	PutRNGstate();
+	//PutRNGstate();
 }
     
 // update sig
@@ -121,7 +117,7 @@ void update_sig( double *beta_new,
 			double mu_c[], double sig_c[] 
 			)
 {
-	GetRNGstate();
+	//GetRNGstate();
 	for( int i = 0; i < *k_c; i++ ) 
 	{
 		// Set inverse gamma posterior parameters
@@ -143,7 +139,7 @@ void update_sig( double *beta_new,
 		// sig[i] = 1 / rgamma( n = 1, alpha_sig, beta_sig )
 		sig_c[i] = 1.0 / rgamma( alpha_sig, 1.0 / beta_sig );
 	}	
-	PutRNGstate();
+	//PutRNGstate();
 }
     
 // update all the parameters
@@ -208,6 +204,7 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 						double *epsilon, double *kappa_r, double *alpha, double *beta_r, double *g, double *h,
 						double mu[], double sig[], double pi_r[] )
 {
+	GetRNGstate();
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
 	int i, j, ij;
 	
@@ -229,7 +226,6 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 	double max_numeric_limits_ld = numeric_limits<double>::max() / 10000;
 	double min_numeric_limits_ld = numeric_limits<double>::min() * 10000;
 	
-	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
 	for( int i_mcmc = 0; i_mcmc < iteration; i_mcmc++ )
 	{
@@ -339,7 +335,6 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 
 // ---------- saving result ---------------------------------------------------|	
 
-
 		all_k[i_mcmc]       = k_c;    // saving all values of k for chicking convergency
 		all_weights[i_mcmc] = weight;
 
@@ -356,7 +351,6 @@ void bmix_norm_k_unknown( double data_r[], int *n, int *k, int *k_max_r, int *it
 				
 			++counter;
 		}
-
     } // End main MCMC for loop
 	PutRNGstate();
 }
@@ -372,6 +366,7 @@ void bmix_norm_k_fixed(
 			double mu[], double sig[], double pi_r[] 
 			)
 {
+	GetRNGstate();
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
 	int i, ij;
 	
@@ -390,7 +385,6 @@ void bmix_norm_k_fixed(
 		
 	int counter = 0;
 
-	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
 	for( int i_mcmc = 0; i_mcmc < iteration; i_mcmc++ )
 	{

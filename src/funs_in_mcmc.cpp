@@ -26,7 +26,7 @@ void order_vec( double vec[], int order[], int *size_vec )
 // selected : input/output 
 void sample_c( double prob[], int *index_selected, int *k_c )
 {
-GetRNGstate();
+	//GetRNGstate();
 	int k_star = *k_c;
 
 	for( int i = 1; i < k_star; i++ )
@@ -42,6 +42,6 @@ GetRNGstate();
 			break;
 		}
 	}
-PutRNGstate();
+	//PutRNGstate();
 } 
     

@@ -42,6 +42,7 @@ Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in 
 \seealso{\code{\link{rmixgamma}}}
 
 \examples{
+\dontrun{
 n      = 10000   
 weight = c( 0.3, 0.5, 0.2 )
 df     = c( 4  , 4  , 4   )
@@ -56,4 +57,5 @@ x           = seq( -20, 20, 0.05 )
 densmixt = dmixt( x, weight, df, mean, sd )
       
 lines( x, densmixt, lwd = 2 )
+}
 }

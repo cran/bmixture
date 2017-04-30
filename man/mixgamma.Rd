@@ -45,6 +45,7 @@ Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in 
 \seealso{\code{\link{rmixnorm}}}
 
 \examples{
+\dontrun{
 n      = 10000   
 weight = c( 0.6  , 0.3  , 0.1   )
 alpha  = c( 100  , 200  , 300   )
@@ -58,4 +59,5 @@ x            = seq( -20, 20, 0.05 )
 densmixgamma = dmixnorm( x, weight, alpha, beta )
       
 lines( x, densmixgamma, lwd = 2 )
+}
 }

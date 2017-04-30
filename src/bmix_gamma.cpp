@@ -19,7 +19,7 @@ void update_z_gamma( int z[], int n_i[],
 			double alpha_c[], double beta_c[], double pi_c[] 
 			)
 {
-	GetRNGstate();
+	//GetRNGstate();
 	vector<double> prob_z( *k_c ); 
 	// Sample group memberships from multinominal distribution
 	for( int j = 0; j < *n_c; j++ )
@@ -45,15 +45,14 @@ void update_z_gamma( int z[], int n_i[],
 		for( int j = 0; j < *n_c; j++ )
 			sum_n += z[ j * *k_c + i ];
 		n_i[i] = sum_n;
-	}
-			
-	PutRNGstate();
+	}		
+	//PutRNGstate();
 }	
        
 // update pi : Sample mixtures proportions (pi) from a dirichlet distribution
 void update_pi_gamma( double pi_c[], int n_i[], int *n_c, int *k_c )
 {
-	GetRNGstate();
+	//GetRNGstate();
 	// for( i in 1:k ) pi[i] = rgamma( n = 1, shape = 1 + n_i[i], scale = 1 ) 
 	for( int i = 0; i < *k_c; i++ ) 
 		pi_c[i] = rgamma( 1.0 + n_i[i], 1.0 ); 
@@ -63,7 +62,7 @@ void update_pi_gamma( double pi_c[], int n_i[], int *n_c, int *k_c )
 	double sum_pi = 0.0;
 	for( int i = 0; i < *k_c; i++ ) sum_pi  += pi_c[i];
 	for( int i = 0; i < *k_c; i++ ) pi_c[i] /= sum_pi;
-	PutRNGstate();
+	//PutRNGstate();
 }
     
 // update alpha and beta
@@ -72,7 +71,7 @@ void update_alpha_beta( double alpha_c[], double beta_c[],
 			double *mu_c, double *nu_c, double *kesi_c, double *tau_c
 			)
 {
-	GetRNGstate();
+	//GetRNGstate();
 	for( int i = 0; i < *k_c; i++ ) 
 	{
 		// step 3.1 : updating beta
@@ -99,7 +98,7 @@ void update_alpha_beta( double alpha_c[], double beta_c[],
 		//if( log_accept_alpha > log( runif( 1 ) ) ) alpha[i] = proposed_alpha 
 		if( log_accept_alpha > log( unif_rand() ) ) alpha_c[i] = proposed_alpha; 
 	}
-	PutRNGstate();
+	//PutRNGstate();
 }
         
 // update all the parameters
@@ -155,6 +154,7 @@ void bmix_gamma_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *i
 			            double *mu, double *nu, double *kesi, double *tau,
 						double alpha[], double beta[], double pi_r[] )
 {
+	GetRNGstate();
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
 	int i, j, ij;
 	
@@ -176,7 +176,6 @@ void bmix_gamma_unknown_k( double data_r[], int *n, int *k, int *k_max_r, int *i
 	double max_numeric_limits_ld = numeric_limits<double>::max() / 10000;
 	double min_numeric_limits_ld = numeric_limits<double>::min() * 10000;
 	
-	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
 	for( int i_mcmc = 0; i_mcmc < iteration; i_mcmc++ )
 	{
@@ -316,6 +315,7 @@ void bmix_gamma_fixed_k(
 			double *mu, double *nu, double *kesi, double *tau,
 			double alpha[], double beta[], double pi_r[] )
 {
+	GetRNGstate();
 	int n_c = *n, k_c = *k, iteration = *iter, burn_in = *burnin, sweep = iteration - burn_in;
 	int i, ij;
 	
@@ -334,7 +334,6 @@ void bmix_gamma_fixed_k(
 		
 	int counter = 0;
 
-	GetRNGstate();
 	// main loop for birth-death MCMC sampling algorithm ----------------------| 
 	for( int i_mcmc = 0; i_mcmc < iteration; i_mcmc++ )
 	{

@@ -9,9 +9,9 @@
  
 \usage{
 bmixgamma( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
-         mu = NULL, nu = NULL, kesi = NULL, tau = NULL, 
-         k.start = NULL, alpha.start = NULL, beta.start = NULL, pi.start = NULL, 
-         k_max = 30, trace = TRUE )
+           mu = NULL, nu = NULL, kesi = NULL, tau = NULL, k.start = NULL, 
+           alpha.start = NULL, beta.start = NULL, pi.start = NULL, 
+           k_max = 30, trace = TRUE )
 }
 
 \arguments{
@@ -90,6 +90,7 @@ Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian 
 \seealso{\code{\link{rmixnorm}}}
 
 \examples{
+\dontrun{
 # simulating data from mixture of gamma with two components
 n      = 1000 # number of observations
 weight = c( 0.6, 0.4 )
@@ -112,4 +113,5 @@ bmixgamma.obj <- bmixgamma( data, iter = 1000 )
 summary( bmixgamma.obj )  
    
 plot( bmixgamma.obj )        
+}
 }

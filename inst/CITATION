@@ -1,0 +1,26 @@
+citHeader( "To cite package 'bmixture' in publications use:" )
+
+     ## R >= 2.8.0 passes package metadata to citation().
+     if( !exists( "meta" ) || is.null( meta ) ) meta <- packageDescription( "pgmm" )
+     year <- sub( ".*( 2[[:digit:]]{3} )-.*", "\\1", meta$Date )
+     vers <- paste( "R package version", meta$Version )
+
+citEntry( entry = "Manual",
+	title       = "bmixture: Bayesian Estimation for Finite Mixture of Distributions",
+	author      = personList( as.person( "Abdolreza Mohammadi" ) ),
+	year        = year,
+	note        = vers,
+	textVersion = paste( "Mohammadi A. (", year, "). bmixture: Bayesian Estimation for Finite Mixture of Distributions.", vers, ".", sep="" )
+)
+
+citEntry( entry = "Article",
+	title       = "Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service",
+	author      = personList( as.person( "Abdolreza Mohammadi" ), as.person( "Mohammad-Reza Salehi-Rad" ), as.person( "Ernst C. Wit" ) ),
+	textVersion = paste( "Mohammadi A., Salehi-Rad M.R. and E. C. Wit (2013). Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. Computational Statistics 28.2, 683-700." ),
+	year        = "2013",
+	journal     = "Computational Statistics",
+	volume      = "28",
+	number      = "2",
+	pages       = "683-700",
+)
+

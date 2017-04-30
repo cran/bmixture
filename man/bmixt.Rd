@@ -8,9 +8,9 @@
 }
  
 \usage{
-bmixt( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, df = 1,
-          k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
-          k_max = 30, trace = TRUE )
+bmixt( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, df = 1, 
+       k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
+       k_max = 30, trace = TRUE )
 }
 
 \arguments{
@@ -83,6 +83,7 @@ Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian 
 \seealso{\code{\link{rmixnorm}}}
 
 \examples{
+\dontrun{
 # simulating data from mixture of Normal with 3 components
 n      = 500
 weight = c( 0.3, 0.5, 0.2 )
@@ -103,4 +104,5 @@ lines( x, densmixnorm, lwd = 2 )
 bmixt.obj = bmixt( data, k = 3, iter = 1000 )
     
 summary( bmixt.obj ) 
+}
 }
