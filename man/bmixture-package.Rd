@@ -12,10 +12,10 @@ Besides, the package contains several functions for simulation and visualization
 
 \section{How to cite this package}{
 Whenever using this package, please cite as
-\preformatted{
-Mohammadi A. (2017). bmixture: Bayesian Estimation for Finite Mixture of 
-Distributions, R package version 0.4, https://CRAN.R-project.org/package=bmixture
-}
+%\preformatted{
+Mohammadi A. (2017). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
+Distributions, \code{R} package version 0.5, https://CRAN.R-project.org/package=bmixture
+%}
 }
 
 \author{Abdolreza Mohammadi <a.mohammadi@uvt.nl>}

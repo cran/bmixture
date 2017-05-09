@@ -1,4 +1,5 @@
 useDynLib( "bmixture", .registration = TRUE )
+import( "BDgraph" )
 
 importFrom( "graphics", "hist", "legend", "lines", "par", "plot" )
 

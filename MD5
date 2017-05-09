@@ -1,5 +1,5 @@
-e61104be4e18eef857baeffd9b5f5b79 *DESCRIPTION
-a08153cdc89f2d13869323994f2e6bca *NAMESPACE
+576bdd577dd623ba45683fdf6484ed9c *DESCRIPTION
+57898a70af79efaba2c161cd09c7033f *NAMESPACE
 9ca4ed74beb865e536e70f67132faaf7 *NEWS
 dcba870544ddcff810f067e5fd550803 *R/bmixgamma.R
 e4995061b1573cfa3a2f70d5f2afab34 *R/bmixnorm.R
@@ -14,7 +14,7 @@ a8e38d1b4ec93221c09e12642105d175 *man/bmixgamma.Rd
 55a5e56d909f3ec59dfbfe75801e4b0f *man/bmixnorm.Rd
 ff1f550dbac0fd7d26f804f9a40f8d0c *man/bmixt.Rd
 1fb75ceded6c281db38cd43858d900e6 *man/bmixture-internal.Rd
-a5ab0f52dcdd5fd06a6d03c71220ed9e *man/bmixture-package.Rd
+fd8be4131bbbc8ed14c6b1d0c9e8ab77 *man/bmixture-package.Rd
 70c7e74f1b5b66c7a9d2896782eafa88 *man/galaxy.Rd
 ea89620113446c5fd99bcc0cffcbf2f7 *man/mixgamma.Rd
 a685120ec37346a33634d9f5da040221 *man/mixnorm.Rd
