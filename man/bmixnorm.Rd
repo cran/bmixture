@@ -77,12 +77,21 @@ Mohammadi, A. and E. Wit (2015) Bayesian Structure Learning in Sparse Gaussian G
 Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian Structure Learning in Graphical Models, \emph{arXiv:1501.05108} 
 }
 
-\author{ Abdolreza Mohammadi }
+\author{ Reza Mohammadi }
 
 \seealso{\code{\link{rmixgamma}}}
 
 \examples{
 \dontrun{
+data( galaxy )
+
+# Runing bdmcmc algorithm for the above simulation data set      
+mcmc_sample = bmixnorm( data = galaxy )
+
+summary( mcmc_sample ) 
+plot( mcmc_sample )
+print( mcmc_sample)
+
 # simulating data from mixture of Normal with 3 components
 n      = 500
 weight = c( 0.3, 0.5, 0.2 )

@@ -1,5 +1,9 @@
 \name{bmixture-package}
 \alias{bmixture-package}
+
+\alias{ bmixnorm_unknown_k }
+\alias{ bmixnorm_fixed_k }
+
 \docType{package}
 
 \title{ Bayesian Estimation for Finite Mixture of Distributions }
@@ -18,7 +22,7 @@ Distributions, \code{R} package version 0.5, https://CRAN.R-project.org/package=
 %}
 }
 
-\author{Abdolreza Mohammadi <a.mohammadi@uvt.nl>}
+\author{Reza Mohammadi <a.mohammadi@uva.nl>}
 
 \references{
 Mohammadi, A., M. R. Salehi-Rad, and E. C. Wit (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics} 28(2):683-700

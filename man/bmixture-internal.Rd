@@ -7,6 +7,6 @@
 
 \description{ Nothing to see here move along }
 
-\author{ Abdolreza Mohammadi <a.mohammadi@uvt.nl> }
+\author{ Reza Mohammadi <a.mohammadi@uva.nl> }
 
 \keyword{ internal }

@@ -15,7 +15,7 @@
 
 \value{ A matrix with \code{n} rows, each containing a single Dirichlet random deviate. }
 
-\author{ Abdolreza Mohammadi }
+\author{ Reza Mohammadi }
   
 \seealso{ \code{\link[stats]{Beta}} }
 

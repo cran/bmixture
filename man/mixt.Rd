@@ -37,7 +37,7 @@ Mohammadi, A., M. R. Salehi-Rad, and E. C. Wit (2013) Using mixture of Gamma dis
 Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation} 41(3):419-435
 }
 
-\author{ Abdolreza Mohammadi }
+\author{ Reza Mohammadi }
 
 \seealso{\code{\link{rmixgamma}}}
 

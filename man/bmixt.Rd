@@ -78,7 +78,7 @@ Mohammadi, A. and E. Wit (2015) Bayesian Structure Learning in Sparse Gaussian G
 Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian Structure Learning in Graphical Models, \emph{arXiv:1501.05108} 
 }
 
-\author{ Abdolreza Mohammadi }
+\author{ Reza Mohammadi }
 
 \seealso{\code{\link{rmixnorm}}}
 
