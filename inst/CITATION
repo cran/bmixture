@@ -7,10 +7,10 @@ citHeader( "To cite package 'bmixture' in publications use:" )
 
 citEntry( entry = "Manual",
 	title       = "bmixture: Bayesian Estimation for Finite Mixture of Distributions",
-	author      = personList( as.person( "Abdolreza Mohammadi" ) ),
+	author      = personList( as.person( "Reza Mohammadi" ) ),
 	year        = year,
 	note        = vers,
-	textVersion = paste( "Mohammadi A. (", year, "). bmixture: Bayesian Estimation for Finite Mixture of Distributions.", vers, ".", sep="" )
+	textVersion = paste( "Mohammadi R. (", year, "). bmixture: Bayesian Estimation for Finite Mixture of Distributions.", vers, ".", sep="" )
 )
 
 citEntry( entry = "Article",
