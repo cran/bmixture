@@ -79,10 +79,6 @@ Richardson, S. and P. J. Green (1997) On Bayesian analysis of mixtures with an u
 Green, P. J.  (1995) Reversible jump Markov chain Monte Carlo computation and Bayesian model determination. \emph{Biometrika} 82(4):711-732
 
 Cappe, O., Christian P. R., and Tobias R. (2003) Reversible jump, birth and death and more general continuous time Markov chain Monte Carlo samplers. \emph{Journal of the Royal Statistical Society: Series B} 65(3):679-700
-
-Mohammadi, A. and E. Wit (2015) Bayesian Structure Learning in Sparse Gaussian Graphical Models, \emph{Bayesian Analysis}, 10(1):109-138
-
-Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian Structure Learning in Graphical Models, \emph{arXiv:1501.05108} 
 }
 
 \author{ Reza Mohammadi }

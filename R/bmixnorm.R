@@ -1,4 +1,15 @@
-## Main function: BDMCMC algorithm for finite mixture of Gamma distribution
+## ------------------------------------------------------------------------------------------------|
+#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+#                                                                                                  |
+#     This file is part of ssgraph package.                                                        |
+#                                                                                                  |
+#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
+#     the terms of the GNU General Public License as published by the Free                         |
+#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
+#                                                                                                  |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
+## ------------------------------------------------------------------------------------------------|
+### Main function: BDMCMC algorithm for finite mixture of Gamma distribution
 ## ------------------------------------------------------------------------------------------------|
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
@@ -8,6 +19,7 @@
 # 4) lambda_r:       rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
 ## ------------------------------------------------------------------------------------------------|
+
 bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
                      k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
                      k_max = 30, trace = TRUE )

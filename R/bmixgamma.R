@@ -1,6 +1,16 @@
-
+## ------------------------------------------------------------------------------------------------|
+#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+#                                                                                                  |
+#     This file is part of ssgraph package.                                                        |
+#                                                                                                  |
+#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
+#     the terms of the GNU General Public License as published by the Free                         |
+#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
+#                                                                                                  |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
+## ------------------------------------------------------------------------------------------------|
 ## Main function: BDMCMC algorithm for finite mixture of Gamma distribution
-################################################################################
+## ------------------------------------------------------------------------------------------------|
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
@@ -10,7 +20,8 @@
 # 5) mu and nu:    alpha parameters of alpha in mixture distribution
 # 6) kesi and tau: alpha parameters of alpha in mixture distribution 
 # 7) k, alpha, beta, and pa: initial values for parameters respectively k, alpha, beta and pi_r
-################################################################################
+## ------------------------------------------------------------------------------------------------|
+
 bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
                     mu = NULL, nu = NULL, kesi = NULL, tau = NULL, 
                     k.start = NULL, alpha.start = NULL, beta.start = NULL, pi.start = NULL, 
@@ -114,7 +125,9 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
 	return( mcmc_sample )
 }
    
+## ------------------------------------------------------------------------------------------------|
 # summary of bmixgamma output
+## ------------------------------------------------------------------------------------------------|
 summary.bmixgamma = function( object, ... )
 {
 	component_size = object $ component_size
@@ -161,7 +174,9 @@ summary.bmixgamma = function( object, ... )
 	}
 }  
      
+## ------------------------------------------------------------------------------------------------|
 # plot for class bmixgamma
+## ------------------------------------------------------------------------------------------------|
 plot.bmixgamma = function( x, ... )
 {
 	component_size = x $ component_size
@@ -212,7 +227,9 @@ plot.bmixgamma = function( x, ... )
     legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
      
+## ------------------------------------------------------------------------------------------------|
 # print of the bmixgamma output
+## ------------------------------------------------------------------------------------------------|
 print.bmixgamma = function( x, ... )
 {
 	component_size = x $ component_size

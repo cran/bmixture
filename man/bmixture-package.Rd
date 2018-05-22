@@ -18,7 +18,7 @@ Besides, the package contains several functions for simulation and visualization
 Whenever using this package, please cite as
 %\preformatted{
 Mohammadi R. (2018). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
-Distributions, \code{R} package version 0.7, https://CRAN.R-project.org/package=bmixture
+Distributions, \code{R} package version 1.1, https://CRAN.R-project.org/package=bmixture
 %}
 }
 
@@ -36,10 +36,6 @@ Richardson, S. and P. J. Green (1997) On Bayesian analysis of mixtures with an u
 Green, P. J.  (1995) Reversible jump Markov chain Monte Carlo computation and Bayesian model determination. \emph{Biometrika} 82(4):711-732
 
 Cappe, O., Christian P. R., and Tobias R. (2003) Reversible jump, birth and death and more general continuous time Markov chain Monte Carlo samplers. \emph{Journal of the Royal Statistical Society: Series B} 65(3):679-700
-
-Mohammadi, A. and E. Wit (2015) Bayesian Structure Learning in Sparse Gaussian Graphical Models, \emph{Bayesian Analysis}, 10(1):109-138
-
-Mohammadi, A. and E. Wit (2015) \pkg{BDgraph}: An \code{R} Package for Bayesian Structure Learning in Graphical Models, \emph{arXiv:1501.05108} 
 }
 
 \keyword{ Package, bmixture, Mixture distributions, Bayesian model selection }

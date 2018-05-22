@@ -13,9 +13,11 @@
     \item{\code{speed}}{a numeric vector giving the speed of galaxies (in 1000 km/second).}
   }
 }
+
 \references{
 Stephens, M. (2000) Bayesian analysis of mixture models with an unknown number of components-an alternative to reversible jump methods. \emph{Annals of statistics}, 28(1):40-74
 }
+
 \examples{
 data( galaxy )
   

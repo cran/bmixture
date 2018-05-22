@@ -1,6 +1,16 @@
-
-## Main function: BDMCMC algorithm for finite mixture of t-distribution
-################################################################################
+## ------------------------------------------------------------------------------------------------|
+#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+#                                                                                                  |
+#     This file is part of ssgraph package.                                                        |
+#                                                                                                  |
+#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
+#     the terms of the GNU General Public License as published by the Free                         |
+#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
+#                                                                                                  |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
+## ------------------------------------------------------------------------------------------------|
+### Main function: BDMCMC algorithm for finite mixture of t-distribution
+## ------------------------------------------------------------------------------------------------|
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
@@ -8,7 +18,8 @@
 # 3) burnin:       number of burn-in iteration
 # 4) lambda_r:       rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
-################################################################################
+## ------------------------------------------------------------------------------------------------|
+
 bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
 				  df = 1,
                   k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
@@ -123,7 +134,9 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 	return( mcmc_sample )
 }
    
+## ------------------------------------------------------------------------------------------------|
 # summary of bmixt output
+## ------------------------------------------------------------------------------------------------|
 summary.bmixt = function( object, ... )
 {
 	component_size = object $ component_size
@@ -171,7 +184,9 @@ summary.bmixt = function( object, ... )
 	}
 }  
      
+## ------------------------------------------------------------------------------------------------|
 # plot for class bmixt
+## ------------------------------------------------------------------------------------------------|
 plot.bmixt = function( x, ... )
 {
 	component_size = x $ component_size
@@ -221,7 +236,9 @@ plot.bmixt = function( x, ... )
     legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
      
+## ------------------------------------------------------------------------------------------------|
 # print of the bmixt output
+## ------------------------------------------------------------------------------------------------|
 print.bmixt = function( x, ... )
 {
 	component_size = x $ component_size

@@ -1,6 +1,18 @@
 ## ------------------------------------------------------------------------------------------------|
-# MCMC sampling algorithm based on Birth-Death MCMC scheme
+#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+#                                                                                                  |
+#     This file is part of ssgraph package.                                                        |
+#                                                                                                  |
+#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
+#     the terms of the GNU General Public License as published by the Free                         |
+#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
+#                                                                                                  |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
+## ------------------------------------------------------------------------------------------------|
+## MCMC sampling algorithm based on Birth-Death MCMC scheme
 # for mixture of Normal distribution with an unknown number of components  
+## ------------------------------------------------------------------------------------------------|
+
 bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda, 
                                epsilon, kappa, alpha, g, h,
                                mu, sig, pi, 
@@ -134,6 +146,7 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
 ## ------------------------------------------------------------------------------------------------|
 # MCMC sampling algorithm 
 # for mixture of Normal distribution with an fixed number of components  
+## ------------------------------------------------------------------------------------------------|
 bmixnorm_fixed_k = function( data, n, k, iter, burnin, 
                              epsilon, kappa, alpha, g, h,
                              mu, sig, pi, 

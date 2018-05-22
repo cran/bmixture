@@ -1,3 +1,15 @@
+// ------------------------------------------------------------------------------------------------|
+//     Copyright (C) 2017 - 2018 Reza Mohammadi                                                    |
+//                                                                                                 |
+//     This file is part of ssgraph package.                                                       |
+//                                                                                                 |
+//     "bmixture" is free software: you can redistribute it and/or modify it under                 |
+//     the terms of the GNU General Public License as published by the Free                        |
+//     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                   |
+//                                                                                                 |
+//     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                             |
+// ------------------------------------------------------------------------------------------------|
+
 #include <R.h>
 #include <Rmath.h>
 #include <vector>        // for using vector
