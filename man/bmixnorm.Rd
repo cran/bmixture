@@ -81,7 +81,7 @@ Mohammadi, A. and M. R. Salehi-Rad (2012) Bayesian inference and prediction in a
 \dontrun{
 data( galaxy )
 
-# Runing bdmcmc algorithm for the above simulation data set      
+# Runing bdmcmc algorithm for the galaxy dataset      
 mcmc_sample = bmixnorm( data = galaxy )
 
 summary( mcmc_sample ) 

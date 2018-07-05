@@ -18,7 +18,7 @@ Besides, the package contains several functions for simulation and visualization
 Whenever using this package, please cite as
 %\preformatted{
 Mohammadi R. (2018). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
-Distributions, \code{R} package version 1.1, https://CRAN.R-project.org/package=bmixture
+Distributions, \code{R} package version 1.2, https://CRAN.R-project.org/package=bmixture
 %}
 }
 
@@ -36,6 +36,43 @@ Richardson, S. and P. J. Green (1997) On Bayesian analysis of mixtures with an u
 Green, P. J.  (1995) Reversible jump Markov chain Monte Carlo computation and Bayesian model determination. \emph{Biometrika} 82(4):711-732
 
 Cappe, O., Christian P. R., and Tobias R. (2003) Reversible jump, birth and death and more general continuous time Markov chain Monte Carlo samplers. \emph{Journal of the Royal Statistical Society: Series B} 65(3):679-700
+}
+
+\examples{
+\dontrun{
+
+library( bmixture )
+
+data( galaxy )
+
+# Runing bdmcmc algorithm for the galaxy dataset      
+mcmc_sample = bmixnorm( data = galaxy )
+
+summary( mcmc_sample ) 
+plot( mcmc_sample )
+print( mcmc_sample)
+
+# simulating data from mixture of Normal with 3 components
+n      = 500
+mean   = c( 0  , 10 , 3   )
+sd     = c( 1  , 1  , 1   )
+weight = c( 0.3, 0.5, 0.2 )
+    
+data = rmixnorm( n = n, weight = weight, mean = mean, sd = sd )
+   
+# plot for simulation data      
+hist( data, prob = TRUE, nclass = 30, col = "gray" )
+    
+x           = seq( -20, 20, 0.05 )
+densmixnorm = dmixnorm( x, weight, mean, sd )
+      
+lines( x, densmixnorm, lwd = 2 )  
+     
+# Runing bdmcmc algorithm for the above simulation data set      
+bmixnorm.obj = bmixnorm( data, k = 3, iter = 1000 )
+    
+summary( bmixnorm.obj ) 
+}
 }
 
 \keyword{ Package, bmixture, Mixture distributions, Bayesian model selection }

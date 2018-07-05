@@ -1,10 +1,14 @@
-NEWS for bmixture package
--------------------------
+
+ /-------------------------------------------------------------------------------------------------\
+|       >>>>> bmixture NEWS                                                                         |
+ \-------------------------------------------------------------------------------------------------/
 
 - CHANGES IN VERSION 0.2
-	The main MCMC sampling algorithms efficiently implemented in C++
 
-	Function "bmixt"         is added
-	Function "summary.bmixt" is added
-	Function "plot.bmixt"    is added
-	Function "print.bmixt"   is added
+	* The main MCMC sampling algorithms efficiently implemented in C++.
+
+	* Function "bmixt"         is added.
+	* Function "summary.bmixt" is added.
+	* Function "plot.bmixt"    is added.
+	* Function "print.bmixt"   is added.
+	

@@ -9,7 +9,7 @@
 #                                                                                                  |
 #     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
 ## ------------------------------------------------------------------------------------------------|
-## Random generation for the mixture of t-distribution 
+# Random generation for the mixture of t-distribution 
 # with mean equal to mean and standard deviation equal to sd.
 ## ------------------------------------------------------------------------------------------------|
 rmixt = function( n = 10, weight = 1, df = 1, mean = 0, sd = 1 ) 

@@ -16,11 +16,22 @@ citEntry( entry = "Manual",
 citEntry( entry = "Article",
 	title       = "Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service",
 	author      = personList( as.person( "Abdolreza Mohammadi" ), as.person( "Mohammad-Reza Salehi-Rad" ), as.person( "Ernst C. Wit" ) ),
-	textVersion = paste( "Mohammadi A., Salehi-Rad M.R. and E. C. Wit (2013). Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. Computational Statistics 28.2, 683-700." ),
+	textVersion = paste( "Mohammadi A., Salehi-Rad M.R., and E. C. Wit (2013). Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. Computational Statistics 28.2, 683-700." ),
 	year        = "2013",
 	journal     = "Computational Statistics",
 	volume      = "28",
 	number      = "2",
 	pages       = "683-700",
+)
+
+citEntry( entry = "Article",
+	title       = "Bayesian inference and prediction in an M/G/1 with optional second service",
+	author      = personList( as.person( "Abdolreza Mohammadi" ), as.person( "Mohammad-Reza Salehi-Rad" ) ),
+	textVersion = paste( "Mohammadi A., Salehi-Rad M.R. (2012). Bayesian inference and prediction in an M/G/1 with optional second service. Communications in Statistics-Simulation and Computation 41.3, 419-435." ),
+	year        = "2012",
+	journal     = "Communications in Statistics-Simulation and Computation",
+	volume      = "41",
+	number      = "3",
+	pages       = "419-435",
 )
 
