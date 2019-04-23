@@ -1,5 +1,5 @@
-## ------------------------------------------------------------------------------------------------|
-#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Copyright (C) 2017 - 2019  Reza Mohammadi                                                    |
 #                                                                                                  |
 #     This file is part of ssgraph package.                                                        |
 #                                                                                                  |
@@ -8,17 +8,17 @@
 #     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
 #                                                                                                  |
 #     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
-## ------------------------------------------------------------------------------------------------|
-### Main function: BDMCMC algorithm for finite mixture of Gamma distribution
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Main function: BDMCMC algorithm for finite mixture of Gamma distribution
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
 # 2) iter:         nuber of iteration of the algorithm 
 # 3) burnin:       number of burn-in iteration
-# 4) lambda_r:       rate for birth and parameter of prior distribution of k
+# 4) lambda_r:     rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
                      k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
@@ -47,15 +47,15 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
     if( k == "unknown" )
     {
         component_size = "unknown"
-        if( is.null( k.start ) ) { k = 3 } else { k = k.start }
+        if( is.null( k.start ) ){ k = 3 }else{ k = k.start }
     }else{
         component_size = "fixed"
     }
     
-    beta = rgamma( 1, g, h )
+    beta = stats::rgamma( 1, g, h )
     if( is.null( pi.start  ) ) pi.start  = c( rep( 1 / k, k  ) )
-    if( is.null( mu.start  ) ) mu.start  = rnorm( k, epsilon, sqrt( 1 / kappa ) ) 
-    if( is.null( sig.start ) ) sig.start = 1 / rgamma( k, alpha, beta ) 	
+    if( is.null( mu.start  ) ) mu.start  = stats::rnorm( k, epsilon, sqrt( 1 / kappa ) ) 
+    if( is.null( sig.start ) ) sig.start = 1 / stats::rgamma( k, alpha, beta ) 	
     
     pi  = pi.start
     mu  = mu.start
@@ -86,15 +86,16 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
         mes <- paste( c(" ", iter," iteration done.                               " ), collapse = "" )
         cat( mes, "\r" )
         cat( "\n" )
-        flush.console()
+        utils::flush.console()
     }    
     
     class( mcmc_sample ) = "bmixnorm"
     return( mcmc_sample )
 }
 
-## ------------------------------------------------------------------------------------------------|
-# summary of bestmix output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   summary of bestmix output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 summary.bmixnorm = function( object, ... )
 {
     data           = object $ data
@@ -109,74 +110,73 @@ summary.bmixnorm = function( object, ... )
         all_weights = object $ all_weights
         iter        = length( all_k )
         burnin      = iter - length( object $ pi_sample )
-        k           = all_k[( burnin + 1 ):iter]
-        weights     = all_weights[( burnin + 1 ):iter]
+        k           = all_k[ ( burnin + 1 ):iter ]
+        weights     = all_weights[ ( burnin + 1 ):iter ]
         
-        op = par( mfrow = c( 2, 2 ), pty = "s", omi = c( 0.3, 0.3, 0.3, 0.3 ), mai = c( 0.3, 0.3, 0.3, 0.3 ) ) 
+        op = graphics::par( mfrow = c( 2, 2 ), pty = "s", omi = c( 0.3, 0.3, 0.3, 0.3 ), mai = c( 0.3, 0.3, 0.3, 0.3 ) ) 
     }
     
     # plot for estimated distribution
-    hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
+    graphics::hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
     
     tt <- seq( min( data ) * 0.9, max( data ) * 1.2, length = 500 )
     f  <- 0 * tt
     
     if( component_size == "unknown" )
     {
-        for ( i in 1:length(tt) )
-            for ( j in 1:length(k) ) 
-                f[i] = f[i] + sum( pi[[j]] * dnorm( tt[i], mu[[j]], sqrt( sig[[j]] ) ) )
+        for( i in 1:length( tt ) )
+            for( j in 1:length( k ) ) 
+                f[ i ] = f[ i ] + sum( pi[[ j ]] * stats::dnorm( tt[ i ], mu[[ j ]], sqrt( sig[[ j ]] ) ) )
             
-            lines( tt, f / length(k), col = "black", lty = 2, lw = 1 )
-    }
-    else
-    {
-        for ( i in 1:length(tt) )
-            for ( j in 1:nrow( pi ) ) 
-                f[i] = f[i] + sum( pi[j,] * dnorm( tt[i], mu[j,], sqrt( sig[j,] ) ) )
+            graphics::lines( tt, f / length(k), col = "black", lty = 2, lw = 1 )
+    }else{
+        for( i in 1:length( tt ) )
+            for( j in 1:nrow( pi ) ) 
+                f[ i ] = f[ i ] + sum( pi[ j, ] * stats::dnorm( tt[ i ], mu[ j, ], sqrt( sig[ j, ] ) ) )
             
-            lines( tt, f / nrow( pi ), col = "black", lty = 2, lw = 1 )
+            graphics::lines( tt, f / nrow( pi ), col = "black", lty = 2, lw = 1 )
     }
     
-    legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
+    graphics::legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
     
     if( component_size == "unknown" )
     {
         # plot estimated distribution of k
         max_k = max( k )
         y     = vector( mode = "numeric", length = max_k )
-        for ( i in 1:max_k ) y[i] <- sum( weights[k == i] ) 
+        for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
         
-        plot( x = 1:max_k, y, type = "h", main = "", ylab = "Pr(k|data)", xlab = "k(Number of components)" )
+        graphics::plot( x = 1:max_k, y, type = "h", main = "", ylab = "Pr(k|data)", xlab = "k(Number of components)" )
         
         # plot k based on iterations
-        sum_weights = 0 * weights
-        sum_weights[1] = weights[1]
-        for( i in 2:length( k ) ) sum_weights[i] = sum_weights[i - 1] + weights[i]
+        sum_weights      = 0 * weights
+        sum_weights[ 1 ] = weights[ 1 ]
+        for( i in 2:length( k ) ) sum_weights[ i ] = sum_weights[ i - 1 ] + weights[ i ]
         
-        plot( sum_weights, k, type = "l", xlab = "iteration", ylab = "Number of componants" )
+        graphics::plot( sum_weights, k, type = "l", xlab = "iteration", ylab = "Number of componants" )
     }else{
         cat( paste( "" ), fill = TRUE )
         cat( paste( "Number of mixture components = ", ncol( mu ) ), fill = TRUE ) 
-        cat( paste( "Estimated pi  = "), paste( round( apply( pi   , 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated mu  = "), paste( round( apply( mu, 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated sig = "), paste( round( apply( sig , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated pi  = "), paste( round( apply( pi , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated mu  = "), paste( round( apply( mu , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated sig = "), paste( round( apply( sig, 2, mean ), 2 ) ), fill = TRUE ) 
         cat( paste( "" ), fill = TRUE )				
     }
 }  
 
-## ------------------------------------------------------------------------------------------------|
-# plot for class bestmix
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   plot for class bestmix
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 plot.bmixnorm = function( x, ... )
 {
     data           = x $ data
     pi             = x $ pi_sample
-    mu          = x $ mu_sample
-    sig           = x $ sig_sample
+    mu             = x $ mu_sample
+    sig            = x $ sig_sample
     component_size = x $ component_size
     
     # plot for estimated distribution
-    hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
+    graphics::hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
     
     tt <- seq( min( data ) * 0.9, max( data ) * 1.2, length = 500 )
     f  <- 0 * tt
@@ -188,29 +188,28 @@ plot.bmixnorm = function( x, ... )
         iter        = length( all_k )
         sample_size = length( sig )
         burnin      = iter - sample_size
-        k           = all_k[( burnin + 1 ):iter]
-        weights     = all_weights[( burnin + 1 ):iter]
+        k           = all_k[ ( burnin + 1 ):iter ]
+        weights     = all_weights[ ( burnin + 1 ):iter ]
         
-        for ( i in 1:length(tt) )
-            for ( j in 1:sample_size ) 
-                f[i] = f[i] + sum( pi[[j]] * dnorm( tt[i], mu[[j]], sqrt( sig[[j]] ) ) )
+        for( i in 1:length( tt ) )
+            for( j in 1:sample_size ) 
+                f[ i ] = f[ i ] + sum( pi[[ j ]] * stats::dnorm( tt[ i ], mu[[ j ]], sqrt( sig[[ j ]] ) ) )
         
-        lines( tt, f / sample_size, col = "black", lty = 2, lw = 1 )
-    }
-    else
-    {
-        for ( i in 1:length(tt) )
-            for ( j in 1:nrow(pi) ) 
-                f[i] = f[i] + sum( pi[j,] * dnorm( tt[i], mu[j,], sqrt( sig[j,] ) ) )
+        graphics::lines( tt, f / sample_size, col = "black", lty = 2, lw = 1 )
+    }else{
+        for( i in 1:length( tt ) )
+            for( j in 1:nrow( pi ) ) 
+                f[ i ] = f[ i ] + sum( pi[ j, ] * stats::dnorm( tt[ i ], mu[ j, ], sqrt( sig[ j, ] ) ) )
             
-            lines( tt, f / nrow( pi ), col = "black", lty = 2, lw = 1 )
+            graphics::lines( tt, f / nrow( pi ), col = "black", lty = 2, lw = 1 )
     }
     
-    legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
+    graphics::legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
 
-## ------------------------------------------------------------------------------------------------|
-# print of the bestmix output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   print of the bestmix output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 print.bmixnorm = function( x, ... )
 {
     if( x $ component_size == "unknown" )
@@ -219,17 +218,17 @@ print.bmixnorm = function( x, ... )
         all_weights = x $ all_weights
         iter        = length( all_k )
         burnin      = iter - length( x $ pi_sample )
-        k           = all_k[( burnin + 1 ):iter]
-        weights     = all_weights[( burnin + 1 ):iter]
+        k           = all_k[ ( burnin + 1 ):iter ]
+        weights     = all_weights[ ( burnin + 1 ):iter ]
         
         max_k = max( k )
         y     = vector( mode = "numeric", length = max_k )
-        for ( i in 1:max_k ) y[i] <- sum( weights[k == i] ) 
+        for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
         
         cat( paste( "" ), fill = TRUE )
         cat( paste( "Estimated of number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
         cat( paste( "" ), fill = TRUE )
-    } else {
+    }else{
         cat( paste( "" ), fill = TRUE )
         cat( paste( "Number of mixture components = ", ncol( x $ mu_sample ) ), fill = TRUE ) 
         cat( paste( "Estimated pi  = " ), paste( round( apply( x $ pi_sample  , 2, mean ), 2 ) ), fill = TRUE ) 
@@ -239,3 +238,4 @@ print.bmixnorm = function( x, ... )
     }
 } 
 
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |

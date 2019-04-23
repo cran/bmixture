@@ -1,13 +1,6 @@
 useDynLib( bmixture, .registration = TRUE )
+
 import( "BDgraph" )
-
-importFrom( "graphics", "hist", "legend", "lines", "par", "plot" )
-
-importFrom( "stats", "dgamma", "dnorm", "dt", 
-			"rbeta", "rgamma", "rnorm", "rt", "rmultinom", "runif", 
-			"sd", "var" )
-
-importFrom( "utils", "flush.console" )
 
 export( bmixgamma,
 		bmixnorm,

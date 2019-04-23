@@ -8,13 +8,13 @@
 \usage{\method{plot}{bmixt}( x, ... )}
 
 \arguments{
-  \item{x}{ An object of \code{S3} class \code{"bmixt"}, from function \code{\link{bmixt}}. }
-  \item{\dots}{System reserved (no specific usage). }
+  \item{x    }{ An object of \code{S3} class \code{"bmixt"}, from function \code{\link{bmixt}}. }
+  \item{\dots}{ System reserved (no specific usage). }
 }
 
-\author{ Reza Mohammadi }
+\author{ Reza Mohammadi \email{a.mohammadi@uva.nl}}
 
-\seealso{\code{\link{bmixt}}}
+\seealso{ \code{\link{bmixt}} }
 
 \examples{
 \dontrun{

@@ -1,5 +1,5 @@
-// ------------------------------------------------------------------------------------------------|
-//     Copyright (C) 2017 - 2018 Reza Mohammadi                                                    |
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+//     Copyright (C) 2017 - 2019 Reza Mohammadi                                                    |
 //                                                                                                 |
 //     This file is part of ssgraph package.                                                       |
 //                                                                                                 |
@@ -8,19 +8,14 @@
 //     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                   |
 //                                                                                                 |
 //     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                             |
-// ------------------------------------------------------------------------------------------------|
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 #ifndef matrix_H
 #define matrix_H
 
-#include <R.h>
-#include <Rmath.h>
-#include <vector>        // for using vector
-#include <math.h>        // isinf, sqrt
-#include <math.h>        // pow 
-#include <algorithm>     // for sort function
+#include "util_bmixture.h"
 
-using namespace std;
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 extern "C" {
 
@@ -39,3 +34,5 @@ extern "C" {
 }
 
 #endif
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |

@@ -1,5 +1,5 @@
-## ------------------------------------------------------------------------------------------------|
-#     Copyright (C) 2017 - 2018  Reza Mohammadi                                                    |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Copyright (C) 2017 - 2019  Reza Mohammadi                                                    |
 #                                                                                                  |
 #     This file is part of ssgraph package.                                                        |
 #                                                                                                  |
@@ -8,9 +8,9 @@
 #     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
 #                                                                                                  |
 #     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
-## ------------------------------------------------------------------------------------------------|
-## Main function: BDMCMC algorithm for finite mixture of Gamma distribution
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Main function: BDMCMC algorithm for finite mixture of Gamma distribution
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
@@ -20,7 +20,7 @@
 # 5) mu and nu:    alpha parameters of alpha in mixture distribution
 # 6) kesi and tau: alpha parameters of alpha in mixture distribution 
 # 7) k, alpha, beta, and pa: initial values for parameters respectively k, alpha, beta and pi_r
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
                     mu = NULL, nu = NULL, kesi = NULL, tau = NULL, 
@@ -36,25 +36,25 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
 	lambda_r = lambda
 	
 	# Values for paprameters of prior distributon of alpha
-	if( is.null( mu ) ) mu <- ( mean(data) ^ 2 / var( data ) ) ^ ( 2 / 3 ) 
+	if( is.null( mu ) ) mu <- ( mean( data ) ^ 2 / stats::var( data ) ) ^ ( 2 / 3 ) 
 	if( is.null( nu ) ) nu <- 1 / sqrt( mu )
 	
 	# Values for paprameters of prior distributon of beta
-	if( is.null( kesi ) ) kesi <- ( mean( data ) / var( data ) ) ^ ( 2 / 3 )
+	if( is.null( kesi ) ) kesi <- ( mean( data ) / stats::var( data ) ) ^ ( 2 / 3 )
 	if( is.null( tau ) )  tau  <- 1 / sqrt( kesi ) 
 		
 	# initial value
 	if( k == "unknown" )
 	{
 		component_size = "unknown"
-		if( is.null( k.start ) ) { k = 3 } else { k = k.start }
+		if( is.null( k.start ) ) { k = 3 }else{ k = k.start }
 	}else{
 		component_size = "fixed"
 	}
 
 	if( is.null( pi.start ) )    pi.start    <- c( rep( 1 / k, k  ) )
-	if( is.null( alpha.start ) ) alpha.start <- rgamma( k, mean( data ) ^ 2, var( data ) ) # moment estimation of alpha
-	if( is.null( beta.start  ) ) beta.start  <- rgamma( k, mean( data )    , var( data ) ) # moment estimation of data	
+	if( is.null( alpha.start ) ) alpha.start <- stats::rgamma( k, mean( data ) ^ 2, stats::var( data ) ) # moment estimation of alpha
+	if( is.null( beta.start  ) ) beta.start  <- stats::rgamma( k, mean( data )    , stats::var( data ) ) # moment estimation of data	
 
 	pi_r  = pi.start
 	alpha = alpha.start
@@ -93,7 +93,7 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
  		beta_sample  = matrix( result $ beta_sample,  nrow = iter - burnin, ncol = k_max_r )
  		   		
  		mcmc_sample = list( all_k = all_k, all_weights = all_weights, pi_sample = pi_sample, alpha_sample = alpha_sample, beta_sample = beta_sample, data = data_r, component_size = "unknown" )    
-	} else {
+	}else{
 		pi_sample    = matrix( 0, nrow = iter - burnin, ncol = k ) 
 		alpha_sample = pi_sample
 		beta_sample  = pi_sample
@@ -118,16 +118,16 @@ bmixgamma = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambd
 		mes <- paste( c(" ", iter," iteration done.                               " ), collapse = "" )
 		cat( mes, "\r" )
 		cat( "\n" )
-		flush.console()
+		utils::flush.console()
 	}    
 
 	class( mcmc_sample ) = "bmixgamma"
 	return( mcmc_sample )
 }
    
-## ------------------------------------------------------------------------------------------------|
-# summary of bmixgamma output
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   summary of bmixgamma output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 summary.bmixgamma = function( object, ... )
 {
 	component_size = object $ component_size
@@ -144,39 +144,37 @@ summary.bmixgamma = function( object, ... )
 		all_weights = object $ all_weights
 		iter        = length( all_k )
 		burnin      = iter - sample_size
-		k           = all_k[( burnin + 1 ):iter]
-		weights     = all_weights[( burnin + 1 ):iter]
+		k           = all_k[ ( burnin + 1 ):iter ]
+		weights     = all_weights[ ( burnin + 1 ):iter ]
 		
-		op = par( mfrow = c( 2, 2 ), pty = "s", omi = c( 0.3, 0.3, 0.3, 0.3 ), mai = c( 0.3, 0.3, 0.3, 0.3 ) ) 
+		op = graphics::par( mfrow = c( 2, 2 ), pty = "s", omi = c( 0.3, 0.3, 0.3, 0.3 ), mai = c( 0.3, 0.3, 0.3, 0.3 ) ) 
 	}
 
-	plot( object )
+	graphics::plot( object )
 	
 	if( component_size == "unknown" )
 	{
 		# plot estimated distribution of k
 		max_k = max( k )
 		y     = vector( mode = "numeric", length = max_k )
-		for ( i in 1:max_k ) y[i] <- sum( weights[k == i] ) 
+		for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
 		
-		plot( x = 1:max_k, y, type = "h", main = "", ylab = "Pr(k|data)", xlab = "k(Number of components)" )
+		graphics::plot( x = 1:max_k, y, type = "h", main = "", ylab = "Pr(k|data)", xlab = "k(Number of components)" )
 
 		# plot k based on iterations
-		sum_weights = 0 * weights
-		sum_weights[1] = weights[1]
-		for( i in 2:length( k ) ) sum_weights[i] = sum_weights[i - 1] + weights[i]
+		sum_weights      = 0 * weights
+		sum_weights[ 1 ] = weights[ 1 ]
+		for( i in 2:length( k ) ) sum_weights[ i ] = sum_weights[ i - 1 ] + weights[ i ]
 
-		plot( sum_weights, k, type = "l", xlab = "iteration", ylab = "Number of componants" )
-	}
-	else
-	{
+		graphics::plot( sum_weights, k, type = "l", xlab = "iteration", ylab = "Number of componants" )
+	}else{
 		print( object )
 	}
 }  
      
-## ------------------------------------------------------------------------------------------------|
-# plot for class bmixgamma
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   plot for class bmixgamma
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 plot.bmixgamma = function( x, ... )
 {
 	component_size = x $ component_size
@@ -188,7 +186,7 @@ plot.bmixgamma = function( x, ... )
 	sample_size    = nrow( beta_sample )
 
 	# plot for estimated distribution
-	hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
+	graphics::hist( data, prob = T, nclass = 25, col = "gray", border = "white"  )
 	
 	x_seq       <- seq( min( data ) * 0.9, max( data ) * 1.2, length = 500 )
 	f_hat_x_seq <- 0 * x_seq
@@ -199,7 +197,7 @@ plot.bmixgamma = function( x, ... )
 		all_k  = x $ all_k
 		iter   = length( all_k )
 		burnin = iter - sample_size
-		k      = all_k[( burnin + 1 ):iter]
+		k      = all_k[ ( burnin + 1 ):iter ]
 
 		result = .C( "dmixgamma_hat_x_seq_unknow_k", as.double(x_seq), f_hat_x_seq = as.double(f_hat_x_seq), 
 					 as.double(pi_sample), as.double(alpha_sample), as.double(beta_sample),
@@ -208,7 +206,7 @@ plot.bmixgamma = function( x, ... )
 					 
 		f_hat_x_seq = result $ f_hat_x_seq
 	
-		lines( x_seq, f_hat_x_seq / sample_size, col = "black", lty = 2, lw = 1 )
+		graphics::lines( x_seq, f_hat_x_seq / sample_size, col = "black", lty = 2, lw = 1 )
 	}
 	else
 	{
@@ -221,15 +219,15 @@ plot.bmixgamma = function( x, ... )
 					 
 		f_hat_x_seq = result $ f_hat_x_seq
 
-		lines( x_seq, f_hat_x_seq / sample_size, col = "black", lty = 2, lw = 1 )
+		graphics::lines( x_seq, f_hat_x_seq / sample_size, col = "black", lty = 2, lw = 1 )
 	}
 	
-    legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
+    graphics::legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
      
-## ------------------------------------------------------------------------------------------------|
-# print of the bmixgamma output
-## ------------------------------------------------------------------------------------------------|
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#   print of the bmixgamma output
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 print.bmixgamma = function( x, ... )
 {
 	component_size = x $ component_size
@@ -244,17 +242,17 @@ print.bmixgamma = function( x, ... )
 		iter        = length( all_k )
 		sample_size = nrow( pi_sample )
 		burnin      = iter - sample_size
-		k           = all_k[( burnin + 1 ):iter]
-		weights     = all_weights[( burnin + 1 ):iter]
+		k           = all_k[ ( burnin + 1 ):iter ]
+		weights     = all_weights[ ( burnin + 1 ):iter ]
 
 		max_k = max( k )
 		y     = vector( mode = "numeric", length = max_k )
-		for ( i in 1:max_k ) y[i] <- sum( weights[k == i] ) 
+		for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
 
 		cat( paste( "" ), fill = TRUE )
 		cat( paste( "Estimated of number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
 		cat( paste( "" ), fill = TRUE )
-	} else {
+	}else{
 		cat( paste( "" ), fill = TRUE )
 		cat( paste( "Number of mixture components = ", ncol( alpha_sample ) ), fill = TRUE ) 
 		cat( paste( "Estimated pi    = "), paste( round( apply( pi_sample , 2, mean ), 2 ) ), fill = TRUE ) 
@@ -264,7 +262,7 @@ print.bmixgamma = function( x, ... )
 	}
 } 
    
-
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 
 

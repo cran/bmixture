@@ -2,34 +2,26 @@
 #include <R_ext/Rdynload.h>
 
 /* FIXME: 
-   Check these declarations against the C/Fortran source code.
+Check these declarations against the C/Fortran source code.
 */
 
 /* .C calls */
 extern void bmix_gamma_fixed_k(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void bmix_gamma_unknown_k(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void bmix_norm_k_fixed(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void bmix_norm_k_unknown(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void bmix_t_fixed_k(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void bmix_t_unknown_k(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void dmixgamma_hat_x_seq_fixed_k(void *, void *, void *, void *, void *, void *, void *, void *);
 extern void dmixgamma_hat_x_seq_unknow_k(void *, void *, void *, void *, void *, void *, void *, void *);
-extern void dmixnorm_hat_x_seq_fixed_k(void *, void *, void *, void *, void *, void *, void *, void *);
-extern void dmixnorm_hat_x_seq_unknow_k(void *, void *, void *, void *, void *, void *, void *, void *);
 extern void dmixt_hat_x_seq_fixed_k(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void dmixt_hat_x_seq_unknow_k(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 
 static const R_CMethodDef CEntries[] = {
     {"bmix_gamma_fixed_k",           (DL_FUNC) &bmix_gamma_fixed_k,           15},
     {"bmix_gamma_unknown_k",         (DL_FUNC) &bmix_gamma_unknown_k,         19},
-    {"bmix_norm_k_fixed",            (DL_FUNC) &bmix_norm_k_fixed,            16},
-    {"bmix_norm_k_unknown",          (DL_FUNC) &bmix_norm_k_unknown,          21},
     {"bmix_t_fixed_k",               (DL_FUNC) &bmix_t_fixed_k,               18},
     {"bmix_t_unknown_k",             (DL_FUNC) &bmix_t_unknown_k,             23},
     {"dmixgamma_hat_x_seq_fixed_k",  (DL_FUNC) &dmixgamma_hat_x_seq_fixed_k,   8},
     {"dmixgamma_hat_x_seq_unknow_k", (DL_FUNC) &dmixgamma_hat_x_seq_unknow_k,  8},
-    {"dmixnorm_hat_x_seq_fixed_k",   (DL_FUNC) &dmixnorm_hat_x_seq_fixed_k,    8},
-    {"dmixnorm_hat_x_seq_unknow_k",  (DL_FUNC) &dmixnorm_hat_x_seq_unknow_k,   8},
     {"dmixt_hat_x_seq_fixed_k",      (DL_FUNC) &dmixt_hat_x_seq_fixed_k,       9},
     {"dmixt_hat_x_seq_unknow_k",     (DL_FUNC) &dmixt_hat_x_seq_unknow_k,      9},
     {NULL, NULL, 0}

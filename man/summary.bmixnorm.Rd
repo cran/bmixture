@@ -12,9 +12,9 @@
   \item{\dots}{System reserved (no specific usage). }
 }
 
-\author{ Reza Mohammadi }
+\author{ Reza Mohammadi \email{a.mohammadi@uva.nl}}
 
-\seealso{\code{\link{bmixnorm}}}
+\seealso{ \code{\link{bmixnorm}} }
 
 \examples{
 \dontrun{

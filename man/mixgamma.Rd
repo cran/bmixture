@@ -15,34 +15,31 @@ dmixgamma( x, weight = 1, alpha = 1, beta = 1 )
 }
 
 \arguments{
-  \item{n}{ The number of samples required. }
-  \item{x}{The vector of quantiles.}
-  \item{weight}{Vector of probability weights, with length equal to number of components (\eqn{k}). This is assumed to sum to 1; if not, it is normalized.}
-  \item{alpha}{Vector of non-negative parameters of the Gamma distribution.}
-  \item{beta}{Vector of non-negative parameters of the Gamma distribution.}
+  \item{n     }{ The number of samples required. }
+  \item{x     }{ The vector of quantiles.}
+  \item{weight}{ The vector of probability weights, with length equal to number of components (\eqn{k}). This is assumed to sum to 1; if not, it is normalized.}
+  \item{alpha }{ The vector of non-negative parameters of the Gamma distribution.}
+  \item{beta  }{ The vector of non-negative parameters of the Gamma distribution.}
 }
 
 \details{
 Sampling from finite mixture of Gamma distribution, with density:
-
   \deqn{Pr(x|\underline{w}, \underline{\alpha}, \underline{\beta}) = \sum_{i=1}^{k} w_{i} Gamma(x|\alpha_{i}, \beta_{i}),}
-
 where
-
 \deqn{Gamma(x|\alpha_{i}, \beta_{i})=\frac{(\beta_{i})^{\alpha_{i}}}{\Gamma(\alpha_{i})} x^{\alpha_{i}-1} e^{-\beta_{i}x}.}
 }
 
 \value{	Generated data as an vector with size \eqn{n}. }
 
 \references{
-Mohammadi, A., M. R. Salehi-Rad, and E. C. Wit (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics} 28(2):683-700
+Mohammadi, A., Salehi-Rad, M. R., and Wit, E. C. (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics}, 28(2):683-700
 
-Mohammadi, A., and M. R. Salehi-Rad (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation} 41(3):419-435
+Mohammadi, A., and Salehi-Rad, M. R. (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation}, 41(3):419-435
 }
 
-\author{ Reza Mohammadi }
+\author{ Reza Mohammadi \email{a.mohammadi@uva.nl}}
 
-\seealso{\code{\link{rmixnorm}}}
+\seealso{ \code{\link{rmixnorm}}, \code{\link{rmixt}} }
 
 \examples{
 \dontrun{

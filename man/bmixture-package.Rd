@@ -17,25 +17,27 @@ Besides, the package contains several functions for simulation and visualization
 \section{How to cite this package}{
 Whenever using this package, please cite as
 %\preformatted{
-Mohammadi R. (2018). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
-Distributions, \code{R} package version 1.2, https://CRAN.R-project.org/package=bmixture
+Mohammadi R. (2019). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
+Distributions, \code{R} package version 1.3, https://CRAN.R-project.org/package=bmixture
 %}
 }
 
 \author{Reza Mohammadi <a.mohammadi@uva.nl>}
 
 \references{
-Mohammadi, A., M. R. Salehi-Rad, and E. C. Wit (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics} 28(2):683-700
+Mohammadi, A., Salehi-Rad, M. R., and Wit, E. C. (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics}, 28(2):683-700
 
-Mohammadi, A, and M. R. Salehi-Rad (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation} 41(3):419-435
+Mohammadi, A, and Salehi-Rad, M. R. (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation}, 41(3):419-435
 
-Stephens, M. (2000) Bayesian analysis of mixture models with an unknown number of components-an alternative to reversible jump methods.  \emph{Annals of statistics} 28(1):40-74
+Stephens, M. (2000) Bayesian analysis of mixture models with an unknown number of components-an alternative to reversible jump methods. \emph{Annals of statistics}, 28(1):40-74
 
-Richardson, S. and P. J. Green (1997) On Bayesian analysis of mixtures with an unknown number of components. \emph{Journal of the Royal Statistical Society: series B} 59(4):731-792
+Richardson, S. and Green, P. J. (1997) On Bayesian analysis of mixtures with an unknown number of components. \emph{Journal of the Royal Statistical Society: series B}, 59(4):731-792
 
-Green, P. J.  (1995) Reversible jump Markov chain Monte Carlo computation and Bayesian model determination. \emph{Biometrika} 82(4):711-732
+Green, P. J. (1995) Reversible jump Markov chain Monte Carlo computation and Bayesian model determination. \emph{Biometrika}, 82(4):711-732
 
-Cappe, O., Christian P. R., and Tobias R. (2003) Reversible jump, birth and death and more general continuous time Markov chain Monte Carlo samplers. \emph{Journal of the Royal Statistical Society: Series B} 65(3):679-700
+Cappe, O., Christian P. R., and Tobias, R. (2003) Reversible jump, birth and death and more general continuous time Markov chain Monte Carlo samplers. \emph{Journal of the Royal Statistical Society: Series B}, 65(3):679-700
+
+Wade, S. and Ghahramani, Z. (2018) Bayesian Cluster Analysis: Point Estimation and Credible Balls (with Discussion). \emph{Bayesian Analysis}, 13(2):559-626
 }
 
 \examples{
