@@ -40,3 +40,6 @@ bmixt.obj = bmixt( data, k = 3 )
 plot( bmixt.obj ) 
 }
 }
+
+\keyword{hplot}
+

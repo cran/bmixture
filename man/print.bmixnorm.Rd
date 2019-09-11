@@ -40,3 +40,5 @@ bmixnorm.obj = bmixnorm( data, k = 3, iter = 1000 )
 print( bmixnorm.obj ) 
 }
 }
+
+\keyword{print}

@@ -40,3 +40,5 @@ bmixnorm.obj = bmixnorm( data, k = 3 )
 plot( bmixnorm.obj ) 
 }
 }
+
+\keyword{hplot}

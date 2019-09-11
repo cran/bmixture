@@ -56,3 +56,5 @@ densmixnorm = dmixnorm( x, weight, mean, sd )
 lines( x, densmixnorm, lwd = 2 )
 }
 }
+
+\keyword{ distribution }

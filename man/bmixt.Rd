@@ -96,3 +96,7 @@ bmixt.obj = bmixt( data, k = 3, iter = 1000 )
 summary( bmixt.obj ) 
 }
 }
+
+\keyword{sampling algorithms}
+\keyword{iteration}
+

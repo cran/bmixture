@@ -58,3 +58,6 @@ densmixgamma = dmixnorm( x, weight, alpha, beta )
 lines( x, densmixgamma, lwd = 2 )
 }
 }
+
+\keyword{ distribution }
+

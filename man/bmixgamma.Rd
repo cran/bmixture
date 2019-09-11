@@ -103,3 +103,7 @@ summary( bmixgamma.obj )
 plot( bmixgamma.obj )        
 }
 }
+
+\keyword{sampling algorithms}
+\keyword{iteration}
+

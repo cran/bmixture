@@ -40,3 +40,5 @@ bmixt.obj = bmixt( data, k = 3, iter = 1000 )
 print( bmixt.obj ) 
 }
 }
+
+\keyword{print}

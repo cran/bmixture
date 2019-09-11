@@ -58,3 +58,6 @@ densmixt = dmixt( x, weight, df, mean, sd )
 lines( x, densmixt, lwd = 2 )
 }
 }
+
+\keyword{ distribution }
+

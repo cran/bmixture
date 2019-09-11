@@ -77,4 +77,4 @@ summary( bmixnorm.obj )
 }
 }
 
-\keyword{ Package, bmixture, Mixture distributions, Bayesian model selection }
+\keyword{package}

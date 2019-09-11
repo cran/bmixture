@@ -104,3 +104,7 @@ bmixnorm.obj = bmixnorm( data, k = 3, iter = 1000 )
 summary( bmixnorm.obj ) 
 }
 }
+
+\keyword{sampling algorithms}
+\keyword{iteration}
+

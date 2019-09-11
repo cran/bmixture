@@ -40,3 +40,6 @@ bmixgamma.obj <- bmixgamma( data )
 plot( bmixgamma.obj )
 }
 }
+
+\keyword{hplot}
+

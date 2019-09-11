@@ -40,3 +40,5 @@ bmixgamma.obj <- bmixgamma( data, iter = 500 )
 print( bmixgamma.obj )
 }
 }
+
+\keyword{print}
