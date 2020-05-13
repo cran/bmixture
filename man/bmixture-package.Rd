@@ -18,7 +18,7 @@ Besides, the package contains several functions for simulation and visualization
 Whenever using this package, please cite as
 %\preformatted{
 Mohammadi R. (2019). \pkg{bmixture}: Bayesian Estimation for Finite Mixture of 
-Distributions, \code{R} package version 1.3, https://CRAN.R-project.org/package=bmixture
+Distributions, \code{R} package version 1.5, https://CRAN.R-project.org/package=bmixture
 %}
 }
 
