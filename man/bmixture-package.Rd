@@ -43,7 +43,7 @@ Wade, S. and Ghahramani, Z. (2018) Bayesian Cluster Analysis: Point Estimation a
 \examples{
 \dontrun{
 
-library( bmixture )
+require( bmixture )
 
 data( galaxy )
 
