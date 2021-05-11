@@ -1,11 +1,12 @@
 \name{mixnorm}
+
 \alias{rmixnorm}
 \alias{dmixnorm}
 
 \title{ Mixture of Normal distribution }
 
 \description{
-Random generation and density function for the finite mixture of univariate Normal distribution.
+Random generation and density function for a finite mixture of univariate Normal distribution.
 }
 
 \usage{ 
@@ -15,11 +16,11 @@ dmixnorm( x, weight = 1, mean = 0, sd = 1 )
 }
 
 \arguments{
-  \item{n     }{ The number of samples required.}
-  \item{x     }{ The vector of quantiles.}
-  \item{weight}{ The vector of probability weights, with length equal to number of components (\eqn{k}). This is assumed to sum to 1; if not, it is normalized.}
-  \item{mean  }{ The vector of means.}
-  \item{sd    }{ The vector of standard deviations.}
+  \item{n     }{ number of observations.}
+  \item{x     }{ vector of quantiles.}
+  \item{weight}{ vector of probability weights, with length equal to number of components (\eqn{k}). This is assumed to sum to 1; if not, it is normalized.}
+  \item{mean  }{ vector of means.}
+  \item{sd    }{ vector of standard deviations.}
 }
 
 \details{
@@ -30,14 +31,14 @@ Sampling from finite mixture of Normal distribution, with density:
 \value{	Generated data as an vector with size \eqn{n}. }
 
 \references{
-Mohammadi, A., Salehi-Rad, M. R., and Wit, E. C. (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics}, 28(2):683-700
+Mohammadi, A., Salehi-Rad, M. R., and Wit, E. C. (2013) Using mixture of Gamma distributions for Bayesian analysis in an M/G/1 queue with optional second service. \emph{Computational Statistics}, 28(2):683-700, \doi{10.1007/s00180-012-0323-3}
 
-Mohammadi, A., and Salehi-Rad, M. R. (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation}, 41(3):419-435
+Mohammadi, A., and Salehi-Rad, M. R. (2012) Bayesian inference and prediction in an M/G/1 with optional second service. \emph{Communications in Statistics-Simulation and Computation}, 41(3):419-435, \doi{10.1080/03610918.2011.588358}
 }
 
 \author{ Reza Mohammadi \email{a.mohammadi@uva.nl}}
 
-\seealso{ \code{\link{rmixt}}, \code{\link{rmixgamma}} }
+\seealso{ \code{\link{rnorm}}, \code{\link{rmixt}}, \code{\link{rmixgamma}} }
 
 \examples{
 \dontrun{

@@ -1,4 +1,5 @@
 \name{summary.bmixt}
+
 \alias{summary.bmixt}
 
 \title{Summary function for \code{S3} class \code{"bmixt"} }

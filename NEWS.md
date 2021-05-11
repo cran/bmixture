@@ -1,8 +1,14 @@
 
-![](https://www.r-pkg.org/badges/version/bmixture) ![](https://www.r-pkg.org/badges/last-release/bmixture) ![](https://cranlogs.r-pkg.org/badges/bmixture) 
+![](https://www.r-pkg.org/badges/version/bmixture) 
+![](https://www.r-pkg.org/badges/last-release/bmixture) 
+![](https://cranlogs.r-pkg.org/badges/bmixture) 
 ![](https://cranlogs.r-pkg.org/badges/grand-total/bmixture) 
 
 # **bmixture** NEWS
+
+## **bmixture** Version 1.7
+
+* `bmixture-manual.pdf` is updated.
 
 ## **bmixture** Version 1.6
 

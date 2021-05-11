@@ -15,7 +15,7 @@
 }
 
 \references{
-Stephens, M. (2000) Bayesian analysis of mixture models with an unknown number of components-an alternative to reversible jump methods. \emph{Annals of statistics}, 28(1):40-74
+Stephens, M. (2000) Bayesian analysis of mixture models with an unknown number of components-an alternative to reversible jump methods. \emph{Annals of statistics}, 28(1):40-74, \doi{10.1214/aos/1016120364}
 }
 
 \examples{

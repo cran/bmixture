@@ -1,22 +1,22 @@
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-#     Copyright (C) 2017 - 2019  Reza Mohammadi                                                    |
-#                                                                                                  |
-#     This file is part of ssgraph package.                                                        |
-#                                                                                                  |
-#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
-#     the terms of the GNU General Public License as published by the Free                         |
-#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
-#                                                                                                  |
-#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Copyright (C) 2017 - 2021  Reza Mohammadi                                |
+#                                                                              |
+#     This file is part of ssgraph package.                                    |
+#                                                                              |
+#     "bmixture" is free software: you can redistribute it and/or modify it    |
+#     under the terms of the GNU General Public License as published by the    |
+#     Free Software Foundation: <https://cran.r-project.org/web/licenses/GPL-3>|
+#                                                                              |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                          |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #     MCMC sampling algorithm based on Birth-Death MCMC scheme
 #     for mixture of Normal distribution with an unknown number of components  
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda, 
                                epsilon, kappa, alpha, g, h,
                                mu, sig, pi, 
-                               k_max, trace )
+                               k.max, trace )
 {
     all_k       = vector( mode = "numeric", length = iter )
     all_weights = all_k
@@ -24,7 +24,7 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
     mu_sample   = pi_sample
     sig_sample  = pi_sample
     
-    # ------- BDMCMC agorithm -------------------------------------------------------------------------|
+    # - - - BDMCMC agorithm  - - - - - - - - - - - - - - - - - - - - - - - - - |
     counter = 1
     for( i_mcmc in 1:iter )
     {
@@ -35,7 +35,7 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
             utils::flush.console()	
         }    
         
-        # STEP 1: computing birth-death rates -------------------------------------------------------------|
+        # STEP 1: computing birth-death rates - - - - - - - - - - - - - - - - -|
         # first we obtain death_rates (vector of death rates for each component)
         if( k > 1 ) 
         { 
@@ -64,7 +64,7 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
         # first Birth and death run and modify the parameters
         birthp <- lambda * weight
         
-        if( ( stats::runif( 1 ) < birthp ) && ( k < k_max ) )
+        if( ( stats::runif( 1 ) < birthp ) && ( k < k.max ) )
         {
             beta   <- stats::rgamma( 1, g, h )
             pi_new <- stats::rbeta( 1, 1, k )
@@ -80,13 +80,13 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
             sig   <- sig[ -j ]
         }
         
-        # STEP 2: Sample group memberships from multinominal distribution ---------------------------------|
+        # STEP 2: Sample group memberships from multinominal distribution - - -|
         z  = matrix( 0, nrow = k, ncol = n ) 
         ## from multinomial distribution
         for( i in 1:n ) 
             z[ , i ] = stats::rmultinom( n = 1, size = 1, prob = pi * stats::dnorm( data[ i ], mean = mu, sd = sqrt( sig ) ) )
         
-        # STEP 3: Sample parameters -----------------------------------------------------------------------|
+        # STEP 3: Sample parameters  - - - - - - - - - - - - - - - - - - - - - |
         # updating beta
         beta = stats::rgamma( 1, g + k * alpha, h + sum( 1 / sig ) )
         
@@ -118,14 +118,14 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
             sig[ i ] = 1 / stats::rgamma( n = 1, alpha_sig, beta_sig )
         }
         
-        # STEP 4: Sort parameters based on mu -------------------------------------------------------------|
+        # STEP 4: Sort parameters based on mu - - - - - - - - - - - - - - - - -|
         order_mu = order( mu )
         pi       = pi[  order_mu ]
         mu       = mu[  order_mu ]
         sig      = sig[ order_mu ]
         z        = z[   order_mu, ]
         
-        # Saving MCMC samples -----------------------------------------------------------------------------|
+        # Saving MCMC samples - - - - - - - - - - - - - - - - - - - - - - - - -|
         all_k[ i_mcmc ]       = k # saving all values of k for chicking convergency
         all_weights[ i_mcmc ] = weight
         
@@ -136,17 +136,18 @@ bmixnorm_unknown_k = function( data, n, k, iter, burnin, lambda,
             sig_sample[[ counter ]] <- sig
             counter = counter + 1
         }
-    } # End of BDMCMC sampling algorithm ----------------------------------------------------------|
+    } # End of BDMCMC sampling algorithm - - - - - - - - - - - - - - - - - - - |
     
     mcmc_sample = list( all_k = all_k, all_weights = all_weights, pi_sample = pi_sample, mu_sample = mu_sample, sig_sample = sig_sample, data = data, component_size = "unknown" )    
     
     return( mcmc_sample )
 }
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #  MCMC sampling algorithm 
 #  for mixture of Normal distribution with an fixed number of components  
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 bmixnorm_fixed_k = function( data, n, k, iter, burnin, 
                              epsilon, kappa, alpha, g, h,
                              mu, sig, pi, 
@@ -227,4 +228,4 @@ bmixnorm_fixed_k = function( data, n, k, iter, burnin,
     return( mcmc_sample )
 }
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |

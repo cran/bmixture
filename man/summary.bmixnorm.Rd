@@ -1,4 +1,5 @@
 \name{summary.bmixnorm}
+
 \alias{summary.bmixnorm}
 
 \title{Summary function for \code{S3} class \code{"bmixnorm"} }

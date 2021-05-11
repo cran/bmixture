@@ -1,16 +1,16 @@
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-#     Copyright (C) 2017 - 2019  Reza Mohammadi                                                    |
-#                                                                                                  |
-#     This file is part of ssgraph package.                                                        |
-#                                                                                                  |
-#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
-#     the terms of the GNU General Public License as published by the Free                         |
-#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
-#                                                                                                  |
-#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Copyright (C) 2017 - 2021  Reza Mohammadi                                |
+#                                                                              |
+#     This file is part of ssgraph package.                                    |
+#                                                                              |
+#     "bmixture" is free software: you can redistribute it and/or modify it    |
+#     under the terms of the GNU General Public License as published by the    |
+#     Free Software Foundation: <https://cran.r-project.org/web/licenses/GPL-3>|
+#                                                                              |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                          |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #     Main function: BDMCMC algorithm for finite mixture of t-distribution
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
@@ -18,15 +18,15 @@
 # 3) burnin:       number of burn-in iteration
 # 4) lambda_r:       rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
 				  df = 1,
                   k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
-                  k_max = 30, trace = TRUE )
+                  k.max = 30, trace = TRUE )
 {
-	if( any( is.na( data ) ) ) stop( "Data should contain no missing data" ) 
-	if( iter <= burnin )       stop( "Number of iteration must be more than number of burn-in" )	
+    if( any( is.na( data ) ) ) stop( "'data' must contain no missing values" ) 
+    if( iter <= burnin )       stop( "'iter' must be higher than 'burnin'" )	
 
 	burnin   = floor( burnin )
 	n        = length( data )
@@ -56,6 +56,7 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 	}
 
 	beta_r = stats::rgamma( 1, g, h )
+	
 	if( is.null( pi.start  ) ) pi.start  = c( rep( 1 / k, k  ) )
 	if( is.null( mu.start  ) ) mu.start  = stats::rnorm( k, epsilon, sqrt( 1 / kappa_r ) ) 
 	if( is.null( sig.start ) ) sig.start = 1 / stats::rgamma( k, alpha, beta_r ) 	
@@ -74,14 +75,14 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 ############### MCMC 
 	if( component_size == "unknown" )
 	{
-		pi_sample   = matrix( 0, nrow = iter - burnin, ncol = k_max ) 
+		pi_sample   = matrix( 0, nrow = iter - burnin, ncol = k.max ) 
 		mu_sample   = pi_sample
 		sig_sample  = pi_sample
 		all_k       = c( rep( 0, iter ) )
 		all_weights = all_k
 
 		data_r  = data
-		k_max_r = k_max
+		k_max_r = k.max
 		q_t_r   = q_t
 		df_t_r  = df_t
 		
@@ -134,9 +135,10 @@ bmixt = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 
 	return( mcmc_sample )
 }
    
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #  summary of bmixt output
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 summary.bmixt = function( object, ... )
 {
 	component_size = object $ component_size
@@ -182,9 +184,10 @@ summary.bmixt = function( object, ... )
 	}
 }  
      
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #  plot for class bmixt
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 plot.bmixt = function( x, ... )
 {
 	component_size = x $ component_size
@@ -232,9 +235,10 @@ plot.bmixt = function( x, ... )
     graphics::legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
      
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #  print of the bmixt output
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 print.bmixt = function( x, ... )
 {
 	component_size = x $ component_size
@@ -258,20 +262,20 @@ print.bmixt = function( x, ... )
 		for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
 
 		cat( paste( "" ), fill = TRUE )
-		cat( paste( "Estimated of number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
+		cat( paste( "Estimation for the number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
 		cat( paste( "" ), fill = TRUE )
 	}else{
 		cat( paste( "" ), fill = TRUE )
 		cat( paste( "Number of mixture components = ", ncol( mu_sample ) ), fill = TRUE ) 
-		cat( paste( "Estimated pi  = "), paste( round( apply( pi_sample , 2, mean ), 2 ) ), fill = TRUE ) 
-		cat( paste( "Estimated mu  = "), paste( round( apply( mu_sample , 2, mean ), 2 ) ), fill = TRUE ) 
-		cat( paste( "Estimated sig = "), paste( round( apply( sig_sample, 2, mean ), 2 ) ), fill = TRUE ) 
-		cat( paste( "Estimated df  = " ), df_t                                            , fill = TRUE ) 
+		cat( paste( "Estimated 'pi'  = "), paste( round( apply( pi_sample , 2, mean ), 2 ) ), fill = TRUE ) 
+		cat( paste( "Estimated 'mu'  = "), paste( round( apply( mu_sample , 2, mean ), 2 ) ), fill = TRUE ) 
+		cat( paste( "Estimated 'sig' = "), paste( round( apply( sig_sample, 2, mean ), 2 ) ), fill = TRUE ) 
+		cat( paste( "Estimated 'df'  = " ), df_t                                            , fill = TRUE ) 
 		cat( paste( "" ), fill = TRUE )				
 	}
 } 
    
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 
 

@@ -1,4 +1,5 @@
 \name{bmixture-internal}
+
 \alias{bmixture-internal}
 
 \docType{data}

@@ -1,16 +1,16 @@
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-#     Copyright (C) 2017 - 2019  Reza Mohammadi                                                    |
-#                                                                                                  |
-#     This file is part of ssgraph package.                                                        |
-#                                                                                                  |
-#     "bmixture" is free software: you can redistribute it and/or modify it under                  |
-#     the terms of the GNU General Public License as published by the Free                         |
-#     Software Foundation; see <https://cran.r-project.org/web/licenses/GPL-3>.                    |
-#                                                                                                  |
-#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                                              |
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+#     Copyright (C) 2017 - 2021  Reza Mohammadi                                |
+#                                                                              |
+#     This file is part of ssgraph package.                                    |
+#                                                                              |
+#     "bmixture" is free software: you can redistribute it and/or modify it    |
+#     under the terms of the GNU General Public License as published by the    |
+#     Free Software Foundation: <https://cran.r-project.org/web/licenses/GPL-3>|
+#                                                                              |
+#     Maintainer: Reza Mohammadi <a.mohammadi@uva.nl>                          |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #     Main function: BDMCMC algorithm for finite mixture of Gamma distribution
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # INPUT for bdmcmc funciton 
 # 1) data:         the data with posetive and no missing values
 # 2) k             number of components of mixture distribution. Defult is unknown
@@ -18,21 +18,21 @@
 # 3) burnin:       number of burn-in iteration
 # 4) lambda_r:     rate for birth and parameter of prior distribution of k
 # 7) k, mu, sig, and pa: initial values for parameters respectively k, mu, sig and pi
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda = 1, 
                      k.start = NULL, mu.start = NULL, sig.start = NULL, pi.start = NULL, 
-                     k_max = 30, trace = TRUE )
+                     k.max = 30, trace = TRUE )
 {
-    if( any( is.na( data ) ) ) stop( "Data should contain no missing data" ) 
-    if( iter <= burnin )       stop( "Number of iteration must be more than number of burn-in" )	
+    if( any( is.na( data ) ) ) stop( "'data' must contain no missing values" ) 
+    if( iter <= burnin )       stop( "'iter' must be higher than 'burnin'" )	
     
     burnin = floor( burnin )
     n      = length( data )
     
     max_data = max( data )	
     min_data = min( data )
-    R        = max_data - min(data)	
+    R        = max_data - min_data	
     
     # Values for paprameters of prior distributon of mu
     epsilon = R / 2        # midpoint of the observed range of the data
@@ -73,7 +73,7 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
         mcmc_sample = bmixnorm_unknown_k( data = data, n = n, k = k, iter = iter, burnin = burnin, lambda = lambda, 
                                           epsilon = epsilon, kappa = kappa, alpha = alpha, g = g, h = h,
                                           mu = mu, sig = sig, pi = pi, 
-                                          k_max = k_max, trace = trace )		
+                                          k.max = k.max, trace = trace )		
     }else{
         mcmc_sample = bmixnorm_fixed_k( data = data, n = n, k = k, iter = iter, burnin = burnin, 
                                         epsilon = epsilon, kappa = kappa, alpha = alpha, g = g, h = h,
@@ -93,9 +93,9 @@ bmixnorm = function( data, k = "unknown", iter = 1000, burnin = iter / 2, lambda
     return( mcmc_sample )
 }
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #   summary of bestmix output
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 summary.bmixnorm = function( object, ... )
 {
     data           = object $ data
@@ -157,16 +157,17 @@ summary.bmixnorm = function( object, ... )
     }else{
         cat( paste( "" ), fill = TRUE )
         cat( paste( "Number of mixture components = ", ncol( mu ) ), fill = TRUE ) 
-        cat( paste( "Estimated pi  = "), paste( round( apply( pi , 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated mu  = "), paste( round( apply( mu , 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated sig = "), paste( round( apply( sig, 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'pi'  = "), paste( round( apply( pi , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'mu'  = "), paste( round( apply( mu , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'sig' = "), paste( round( apply( sig, 2, mean ), 2 ) ), fill = TRUE ) 
         cat( paste( "" ), fill = TRUE )				
     }
 }  
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #   plot for class bestmix
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 plot.bmixnorm = function( x, ... )
 {
     data           = x $ data
@@ -207,9 +208,10 @@ plot.bmixnorm = function( x, ... )
     graphics::legend( "topright", c( "predictive density" ), lty = 2, col = "black", lwd = 1 )
 }
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #   print of the bestmix output
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
 print.bmixnorm = function( x, ... )
 {
     if( x $ component_size == "unknown" )
@@ -226,16 +228,16 @@ print.bmixnorm = function( x, ... )
         for( i in 1:max_k ) y[ i ] <- sum( weights[ k == i ] ) 
         
         cat( paste( "" ), fill = TRUE )
-        cat( paste( "Estimated of number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
+        cat( paste( "Estimation for the number of components = ", which( y == max( y ) ) ), fill = TRUE ) 
         cat( paste( "" ), fill = TRUE )
     }else{
         cat( paste( "" ), fill = TRUE )
         cat( paste( "Number of mixture components = ", ncol( x $ mu_sample ) ), fill = TRUE ) 
-        cat( paste( "Estimated pi  = " ), paste( round( apply( x $ pi_sample  , 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated mu  = " ), paste( round( apply( x $ mu_sample  , 2, mean ), 2 ) ), fill = TRUE ) 
-        cat( paste( "Estimated sig = " ), paste( round( apply( x $ sig_sample , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'pi'  = " ), paste( round( apply( x $ pi_sample  , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'mu'  = " ), paste( round( apply( x $ mu_sample  , 2, mean ), 2 ) ), fill = TRUE ) 
+        cat( paste( "Estimated 'sig' = " ), paste( round( apply( x $ sig_sample , 2, mean ), 2 ) ), fill = TRUE ) 
         cat( paste( "" ), fill = TRUE )		
     }
 } 
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |

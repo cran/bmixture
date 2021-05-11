@@ -8,8 +8,8 @@
 \usage{ rdirichlet( n = 10, alpha = c( 1, 1 ) ) }
 
 \arguments{
-  \item{n    }{ The number of samples required. }
-  \item{alpha}{ The vector of shape parameters. }
+  \item{n    }{ number of observations. }
+  \item{alpha}{ vector of shape parameters. }
 }
 \details{ The Dirichlet distribution is the multidimensional generalization of the beta distribution. }
 
@@ -18,9 +18,11 @@
 \author{ Reza Mohammadi \email{a.mohammadi@uva.nl}}
   
 %\seealso{ \code{\link[stats]{Beta}} }
+\seealso{ \code{\link{Beta}} }
 
 \examples{
   draws = rdirichlet( n = 500, alpha = c( 1, 1, 1 ) )
+  
   boxplot( draws )
 }
 

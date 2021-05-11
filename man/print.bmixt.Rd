@@ -1,4 +1,5 @@
 \name{print.bmixt}
+
 \alias{print.bmixt}
 
 \title{Print function for \code{S3} class \code{"bmixt"} }
@@ -8,7 +9,7 @@
 \usage{\method{print}{bmixt}( x, ... )}
 
 \arguments{
-  \item{x}{ An object of \code{S3} class \code{"bmixt"}, from function \code{\link{bmixt}}. }
+  \item{x}{ object of \code{S3} class \code{"bmixt"}, from function \code{\link{bmixt}}. }
   \item{\dots}{System reserved (no specific usage). }
 }
 
